@@ -1,7 +1,24 @@
 <template>
     <div>
-          <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Modal -->
+        <div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signoutModalLabel">Apa kamu yakin ingin keluar dari akun ini ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button @click="logout" type="button" class="btn btn-danger">Keluar</button>
+                </div>
+              </div>
+          </div>
+        </div>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -11,11 +28,11 @@
           <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
-          <template v-if="user">
+          <template v-if="authenticated">
           <router-link to="/dashboard" class="d-block">{{this.user.name}}</router-link>
           </template>
           <template v-else>
-            <router-link to="/dashboard" class="d-block">Not Registered</router-link>
+            <router-link to="#" class="d-block">Not Registered</router-link>
           </template>
         </div>
       </div>
@@ -33,7 +50,8 @@
                   <p>Home</p>
                 </router-link>
               </li>
-              <li class="nav-item">
+              <template v-if="authenticated">
+                <li class="nav-item">
                 <router-link to="/profile" class="nav-link" exact>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Profile</p>
@@ -45,7 +63,12 @@
                   <p>Dashboard</p>
                 </router-link>
               </li>
-              <template v-if="user">
+              <li class="nav-item">
+                <a data-toggle="modal" data-target="#signoutModal" href="#" class="nav-link" exact>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Signout</p>
+                </a>
+              </li>
               </template>
               <template v-else>
               <li class="nav-item">
@@ -74,13 +97,26 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import {mapGetters} from 'vuex'
 export default {
-    computed: {
-        ...mapGetters({
-            user : 'auth/user',
-            // errors : 'auth/errors'
-        }),
-	},
+  computed: {
+    ...mapGetters({
+        user : 'auth/user',
+        authenticated : 'auth/authenticated',
+        // errors : 'auth/errors'
+    }),
+  },
+  methods : {
+    logout(){
+      this.$store.dispatch('auth/logout').then(() => {
+        $('#signoutModal').modal('hide')
+        this.$router.push({ name: 'Home'})
+      }).
+      catch(err => {
+        console.log(err);
+      })
+    },
+  }
 }
 </script>

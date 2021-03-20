@@ -6,6 +6,7 @@ const barangController = require('../controllers/barangController');
 const userController = require('../controllers/userController');
 
 // Middleware
+const fileUpload = require('../middleware/fileUpload')
 const checkAuth = require('../middleware/checkAuth')
 
 router.get('/', function(req, res) {
@@ -19,13 +20,16 @@ router.post('/register', userController.register)
 router.get('/profile', checkAuth, userController.profile)
 
 // Barang
+router.route('/barang/user')
+  .get(checkAuth, barangController.withUser)
+
 router.route('/barang')
   .get(barangController.index)
-  .post(checkAuth, barangController.store);
+  .post(checkAuth, fileUpload.single('cover'), barangController.store)
 
 router.route('/barang/:id')
   .get(barangController.show)
-  .put(checkAuth, barangController.update)
+  .put(checkAuth, fileUpload.single('cover'), barangController.update)
   .delete(checkAuth, barangController.delete)
 
 module.exports = router;

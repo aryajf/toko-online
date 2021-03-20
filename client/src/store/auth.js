@@ -66,14 +66,8 @@ export default{
       }
     },
     async logout({commit}){
-      try{
-        return await axios.post('auth/signout').then(()=>{
-          commit('SET_TOKEN', null)
-          commit('SET_USER', null)
-        })
-      }catch(e){
-        return e.response
-      }
+      commit('SET_TOKEN', null)
+      commit('SET_USER', null)
     }
   }
 }

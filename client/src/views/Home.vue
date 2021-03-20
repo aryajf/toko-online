@@ -1,7 +1,6 @@
 <template>
 <div>
     <div class="container-fluid">
-    <h1 class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h1>
     <div class="row mb-2">
       <div class="col">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -12,13 +11,13 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="d-block w-100" src="" alt="First slide">
+          <img class="d-block w-100" src="@/assets/images/carousel/shopping1.jpg" alt="First slide">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="" alt="Second slide">
+          <img class="d-block w-100" src="@/assets/images/carousel/shopping2.jpg" alt="Second slide">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="" alt="Third slide">
+          <img class="d-block w-100" src="@/assets/images/carousel/shopping3.jpg" alt="Third slide">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -32,25 +31,12 @@
     </div>
     </div>
     </div>
+    <h1 class="d-flex justify-content-center py-1">Buruan Pesan disini!!</h1>
+    <hr>
     <div class="row">
       <div class="col-md-3" v-for="item in barang" :key="item.id">
         <div class="card">
-          <img class="card-img-top" src="" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">{{item.title}}</h5>
-            <p class="card-text">{{item.description}}</p>
-            <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link> <a href="#" class="btn btn-success">Pesan!</a>
-          </div>
-        </div>
-      </div>
-    </div>
-      <hr>
-      
-    <h1 class="mt-4">Kategori</h1>
-    <div class="row">
-      <div class="col-md-3" v-for="item in barang" :key="item.id">
-        <div class="card">
-          <img class="card-img-top" src="" alt="Card image cap">
+          <img class="card-img-top" :src="apiURL+'images/barang/'+item.cover" :alt="item.title">
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
             <p class="card-text">{{item.description}}</p>
@@ -64,9 +50,15 @@
 </template>
 
 <script>
+import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
 export default {
   name: 'Home',
+  setup() {
+        return {
+            apiURL: appConfig.apiURL,
+        };
+    },
   created(){
     this.getSemuaBarang();
   },
@@ -87,3 +79,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.carousel-inner{
+  width:100%;
+  max-height: 500px !important;
+}
+</style>

@@ -1,22 +1,5 @@
 <template>
     <div>
-      <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Apa kamu yakin menghapus barang ini ?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button @click="deleteBarang" type="button" class="btn btn-danger">Delete</button>
-                </div>
-              </div>
-          </div>
-        </div>
         <section class="content-header">
       <h1 class="pb-3">
         Selamat datang {{this.user.name}}
@@ -75,16 +58,12 @@
                           <tr>
                             <th scope="col">Nama</th>
                             <th scope="col">Dibuat pada</th>
-                            <th scope="col">Aksi</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr v-for="item in barang" :key="item.id">
                             <td><router-link :to="'/'+item.id">{{item.title}}</router-link></td>
                             <td>{{item.createdAt}}</td>
-                            <td>
-                              <router-link :to="'/'+item.id" class="btn btn-info">Update</router-link> <button data-toggle="modal" :data-barangId="item.id" data-target="#deleteModal" class="btn btn-danger">Hapus</button>
-                            </td>
                           </tr>
                         </tbody>
                       </table>
