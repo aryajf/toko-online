@@ -33,34 +33,13 @@
     </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col-md-3" v-for="item in barang" :key="item.id">
         <div class="card">
           <img class="card-img-top" src="" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-secondary">Read More</a> <a href="#" class="btn btn-success">Pesan!</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img class="card-img-top" src="" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-secondary">Read More</a> <a href="#" class="btn btn-success">Pesan!</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img class="card-img-top" src="" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-secondary">Read More</a> <a href="#" class="btn btn-success">Pesan!</a>
+            <h5 class="card-title">{{item.title}}</h5>
+            <p class="card-text">{{item.description}}</p>
+            <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link> <a href="#" class="btn btn-success">Pesan!</a>
           </div>
         </div>
       </div>
@@ -68,15 +47,14 @@
       <hr>
       
     <h1 class="mt-4">Kategori</h1>
-    <h4 class="mt-4 mb-3">Pakaian</h4>
     <div class="row">
-      <div class="col" v-for="item in barang" :key="item.id">
+      <div class="col-md-3" v-for="item in barang" :key="item.id">
         <div class="card">
           <img class="card-img-top" src="" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
             <p class="card-text">{{item.description}}</p>
-            <a href="#" class="btn btn-secondary">Read More</a> <a href="#" class="btn btn-success">Pesan!</a>
+            <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link> <a href="#" class="btn btn-success">Pesan!</a>
           </div>
         </div>
       </div>

@@ -20,6 +20,9 @@ export default({
         SET_BARANG(state, data){
             state.barang = data
         },
+        SET_BARANG_USER(state, data){
+            state.barang = data
+        },
         SET_BARANG_ALERT(state, data){
             state.barang_alert = data
         },
@@ -38,6 +41,9 @@ export default({
           return state.semuaBarang
         },
         barang(state){
+          return state.barang
+        },
+        baranguser(state){
           return state.barang
         },
         barang_alert(state){
@@ -70,13 +76,32 @@ export default({
             }
         },
         async getBarang({commit}, credentials){
-            try{
-              let response = await axios.get(`barang/${credentials.id}`)
-              commit('SET_BARANG', response.data.barang)
-              return response
-            }catch(e){
-              return e.response
-            }
-          },
+          try{
+            let response = await axios.get(`barang/${credentials}`)
+            commit('SET_BARANG', response.data.barang)
+            return response
+          }catch(e){
+            return e.response
+          }
+        },
+        async getBarangUser({commit}){
+          try{
+            let response = await axios.get(`barang/user`)
+            commit('SET_BARANG_USER', response.data.barang)
+            return response
+          }catch(e){
+            return e.response
+          }
+        },
+        async createBarang({state, dispatch},form){
+          try{
+            let response = await axios.post('barang', form)
+            dispatch('getBarangUser')
+            return response
+          }catch(e){
+            state.errors = e.response.data.data
+            return e.response
+          }
+        },
     }
 })

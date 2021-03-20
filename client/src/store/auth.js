@@ -27,6 +27,15 @@ export default{
     }
   },
   actions: {
+    async register({state},credentials){
+      try{
+        let response = await axios.post('register', credentials)
+        return response
+      }catch(e){
+        state.errors = e.response.data.data
+        return e.response
+      }
+    },
     async signin({dispatch, state},credentials){
       try{
         let response = await axios.post('login', credentials)

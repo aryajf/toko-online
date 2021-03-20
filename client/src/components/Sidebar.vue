@@ -15,7 +15,7 @@
           <router-link to="/dashboard" class="d-block">{{this.user.name}}</router-link>
           </template>
           <template v-else>
-            <router-link to="/dashboard" class="d-block">Anonymous</router-link>
+            <router-link to="/dashboard" class="d-block">Not Registered</router-link>
           </template>
         </div>
       </div>
@@ -31,6 +31,18 @@
                 <router-link to="/" class="nav-link" exact>
                   <i class="far fa-circle nav-icon"></i>
                   <p>Home</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/profile" class="nav-link" exact>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Profile</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/dashboard" class="nav-link" exact>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard</p>
                 </router-link>
               </li>
               <template v-if="user">

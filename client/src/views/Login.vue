@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-
 export default {
   data(){
 		return {
@@ -50,17 +48,13 @@ export default {
 			}
 		}
 	},
-  computed: {
-    ...mapGetters({
-        user : 'auth/user',
-    }),
-	},
   methods: {
 		submit(){
 			this.$store.dispatch('auth/signin', this.form).then((response) => {
         console.log(response);
         if(response.status == 200){
-          this.$toast.success(response.data.message)  
+          this.$toast.success(response.data.message)
+          this.$router.push({ name: 'Home'})
         }else{
           this.$toast.error(response.data.message)
         }

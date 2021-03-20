@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Show from '../views/Show.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import DashboardAdmin from '../views/Admin/Dashboard.vue'
+import Dashboard from '../views/Admin/Dashboard.vue'
 import Cart from '../views/Cart.vue'
 import store from '@/store'
 // import NotFound from '../views/NotFound.vue'
@@ -12,6 +13,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/:id',
+    name: 'Show',
+    component: Show
   },
   {
     path: '/login',
@@ -29,8 +35,8 @@ const routes = [
   },
   {
     path: '/dashboard',
-    name: 'DashboardAdmin',
-    component: DashboardAdmin,
+    name: 'Dashboard',
+    component: Dashboard,
     beforeEnter: (to, from, next) => {
       if(!store.getters['auth/authenticated']){
         return next({
