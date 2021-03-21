@@ -22,6 +22,10 @@ module.exports = {
         type : Sequelize.STRING,
         allowNull : false
       },
+      total: {
+        type : Sequelize.INTEGER,
+        allowNull : false
+      },
       cover: {
 				type: Sequelize.STRING,
 				allowNull: false,
@@ -29,10 +33,6 @@ module.exports = {
       user_id: {
         type : Sequelize.INTEGER,
         allowNull : false,
-        // references: {
-				// 	model: 'User',
-				// 	key: 'id'
-				// }
       },
       created_at: {
         type : Sequelize.DATE,

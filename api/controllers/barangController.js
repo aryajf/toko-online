@@ -21,6 +21,7 @@ module.exports = {
                         id: barang.id,
                         title: barang.title,
                         description: barang.description,
+                        total: barang.total,
                         cover: barang.cover,
                         createdAt: dateFormat(barang.createdAt),
                         updatedAt: dateFormat(barang.updatedAt),
@@ -54,9 +55,10 @@ module.exports = {
                     id: barang.id,
                     title: barang.title,
                     description: barang.description,
+                    total: barang.total,
                     cover: barang.cover,
-                    createdAt: barang.createdAt,
-                    updatedAt: barang.updatedAt,
+                    createdAt: dateFormat(barang.createdAt),
+                    updatedAt: dateFormat(barang.updatedAt),
                     user_id: barang.user.id,
                     user_name: barang.user.name,
                     user_email: barang.user.email,
@@ -78,7 +80,17 @@ module.exports = {
         })
         if(barang != null){
             res.json({
-                barang : barang,
+                barang: barang.map(barang => {
+                    return{
+                    id: barang.id,
+                    title: barang.title,
+                    description: barang.description,
+                    total: barang.total,
+                    cover: barang.cover,
+                    createdAt: dateFormat(barang.createdAt),
+                    updatedAt: dateFormat(barang.updatedAt),
+                    }
+                }),
                 message : 'Barang berhasil ditampilkan',
                 request : {
                     method: req.method,
@@ -107,10 +119,12 @@ module.exports = {
         const fileName = getFileName + '-' + unique + '.' + extension
         const pathResult = directory + '/' + fileName
 
-        let requestBarang
-        requestBarang = {
+        req.body.total = parseInt(req.body.total)
+        
+        let requestBarang = {
             title : req.body.title,
             description : req.body.description,
+            total : req.body.total,
             cover : fileName,
             user_id : req.decoded.id,
         }
@@ -140,6 +154,7 @@ module.exports = {
     },
     update : async (req, res) => {
         const barang = await Barang.findOne({where : {id : req.params.id}})
+        req.body.total = parseInt(req.body.total)
 
         if(req.file){
             // Create Path Upload
@@ -152,6 +167,7 @@ module.exports = {
             let requestBarang = {
                 title: req.body.title,
                 description: req.body.description,
+                total: req.body.total,
                 cover: fileName
             }
 
@@ -172,6 +188,7 @@ module.exports = {
                             data: {
                                 id: barang.id,
                                 title: barang.title,
+                                total: barang.total,
                                 description: barang.description,
                             },
                             message: 'barang berhasil diubah',
@@ -197,6 +214,7 @@ module.exports = {
         }else{
             let requestBarang = {
                 title: req.body.title,
+                total: req.body.total,
                 description: req.body.description
             }
 
@@ -208,6 +226,7 @@ module.exports = {
                             data: {
                                 id: barang.id,
                                 title: barang.title,
+                                total: barang.total,
                                 description: barang.description,
                             },
                             message: 'Barang berhasil diubah',
@@ -271,11 +290,13 @@ function barangValidation(dataRequest, method){
     if(method == 'PUT'){
         schema = {
             title: 'string|empty:false|min:3',
+            total: 'number|integer|positive|min:0|empty:false',
             description: 'string|empty:false|min:10'
         }
     }else{
         schema = {
             title: 'string|empty:false|min:3',
+            total: 'number|integer|positive|min:0|empty:false',
             description: 'string|empty:false|min:10',
             cover: 'string|empty:false'
         }

@@ -17,7 +17,9 @@ router.get('/', function(req, res) {
 router.post('/login', userController.login)
 router.post('/register', userController.register)
 
-router.get('/profile', checkAuth, userController.profile)
+router.route('/profile')
+  .get(checkAuth, userController.profile)
+  .put(checkAuth, fileUpload.single('profile'), userController.update)
 
 // Barang
 router.route('/barang/user')

@@ -89,7 +89,7 @@ module.exports = {
         res.json({
             // user: user.map(user => {
             //     return{
-            //         title: user.title,
+            //         name: user.name,
             //     }
             // }),
             user : user,
@@ -120,30 +120,98 @@ module.exports = {
         }else{res.status(404).json({message : 'User tidak ditemukan', status: false})}
     },
     update : async (req, res) => {
-        const user = await User.findOne({where : {id : req.params.id}})
+        const user = await User.findOne({where : {id : req.decoded.id}})
 
-        if(user != null){
-            let requestUser
-            requestUser = {
-                title : req.body.title,
-                description : req.body.description
+        if(req.file){
+            // Create Path Upload
+            const getFileName = req.file.originalname.split('.')[0]
+            const unique = new Date().toISOString().replace(/[\/\\:]/g, "_")
+            const extension = req.file.mimetype.split("/").pop()
+            const fileName = getFileName + '-' + unique + '.' + extension
+            const pathResult = directory + '/' + fileName
+
+            let requestUser = {
+                name: req.body.name,
+                email: req.body.email,
+                profile: fileName
             }
 
-            let user =  await User.update(requestUser, {
-                where : {
-                    id : req.params.id
+            if(userValidation(requestUser, req.url) == null){
+                if(user != null){
+                    try{
+                        // Check File Exists
+                        const existsPath = directory + user.profile
+                        if(fs.existsSync(existsPath)){
+                            fs.unlinkSync(existsPath)
+                        }
+                        user.update(requestUser)
+                        sharp(req.file.buffer).resize(640,480).jpeg({
+                            quality: 80,
+                            chromeSubsampling: '4:4:4'
+                        }).toFile(pathResult)
+                        res.json({
+                            data: {
+                                id: user.id,
+                                name: user.name,
+                                email: user.email,
+                            },
+                            message: 'Profil berhasil diperbarui',
+                            request: {
+                                method: req.method,
+                                url: process.env.BASE_URL + '/user/' + req.params.id
+                            },
+                            status: true
+                        })
+                    }catch(err){
+                        res.status(400).json({
+                            error: err.message,
+                            message: 'User gagal diperbarui',
+                            status: false
+                        })
+                    }
+                }else{
+                    res.status(404).json({message: 'User tidak ditemukan', status: false})
                 }
-            })
+            }else{
+                res.status(400).send(userValidation(requestUser, req.url))
+            }
+        }else{
+            let requestUser = {
+                name: req.body.name,
+                email: req.body.email
+            }
 
-            res.json({
-                message : 'User berhasil diperbarui',
-                request : {
-                    method: req.method,
-                    url: process.env.BASE_URL + 'user'
-                },
-                status: true
-            })
-        }else{res.status(404).json({message : 'User tidak ditemukan', status: false})}
+            if(userValidation(requestUser, req.url) == null){
+                if(user != null){
+                    try{
+                        user.update(requestUser)
+                        res.json({
+                            data: {
+                                id: user.id,
+                                name: user.name,
+                                email: user.email,
+                            },
+                            message: 'Profil berhasil diperbarui',
+                            request: {
+                                method: req.method,
+                                url: process.env.BASE_URL + '/user/' + req.params.slug
+                            },
+                            status: true
+                        })
+                    }catch(err){
+                        res.status(400).json({
+                            error: err.message,
+                            message: 'User gagal diperbarui',
+                            status: false
+                        })
+                    }
+                }else{
+                    res.status(404).json({message: 'User tidak ditemukan', status: false})
+                }
+            }else{
+                res.status(400).send(userValidation(requestUser, req.url))
+            }
+        }
     },
     delete : async (req, res) => {
         const user = await User.findOne({where : {id : req.params.id}})
@@ -176,6 +244,10 @@ function userValidation(dataRequest, url){
             password: 'string|empty:false|min:3',
             confirmPassword: { type: "equal", field: "password" }
         }
+    }else if(url == '/profile'){
+        schema = {
+            name: 'string|empty:false|required',
+            email: 'email|empty:false' }
     }else{
         schema = {
             email: 'email|empty:false',
