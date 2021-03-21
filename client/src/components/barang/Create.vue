@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="card-body" style="display: block;">
-        <form @submit.prevent="createBarang" enctype="multipart/form-data">
+        <form @submit.prevent="createBarang">
             <div class="input-group mb-3">
                 <input type="text" v-model="form.title" class="form-control" placeholder="Nama Barang">
                 <div class="input-group-append">
@@ -33,13 +33,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-            </div>
-            <div class="custom-file">
-                <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
             </div>
             <div class="offset-8 col-4">
                 <button type="submit" class="btn btn-success btn-block">Create</button>

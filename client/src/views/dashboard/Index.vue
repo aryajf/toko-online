@@ -53,20 +53,25 @@
                         </div>
                     </div>
                     <div class="card-body" style="display: block;">
-                      <table class="table">
-                        <thead class="thead-dark">
-                          <tr>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Dibuat pada</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="item in barang" :key="item.id">
-                            <td><router-link :to="'/'+item.id">{{item.title}}</router-link></td>
-                            <td>{{item.createdAt}}</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <template v-if="barang.length == 0">
+                        <div class="alert alert-danger">Anda belum menambah barang apapun</div>
+                        </template>
+                      <template v-else>
+                        <table class="table">
+                          <thead class="thead-dark">
+                            <tr>
+                              <th scope="col">Nama</th>
+                              <th scope="col">Dibuat pada</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in barang" :key="item.id">
+                              <td><router-link :to="'/'+item.id">{{item.title}}</router-link></td>
+                              <td>{{item.createdAt}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </template>
                     </div>
                 </div>
             </div>

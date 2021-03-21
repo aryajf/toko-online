@@ -1,22 +1,23 @@
 <template>
 <div>
-     <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Apa kamu yakin menghapus barang ini ?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button @click="deleteBarang" type="button" class="btn btn-danger">Delete</button>
-                </div>
-              </div>
-          </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Apa kamu yakin menghapus barang ini ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="deleteBarang" type="button" class="btn btn-danger">Delete</button>
+            </div>
+            </div>
         </div>
+    </div>
+    <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
     <div class="container">
         <div v-if="!authenticated">
             <div class="row">
@@ -44,6 +45,38 @@
                 <p>{{barang.description}}</p>
             </div>
         </div>
+        </div>
+        <div v-else-if="user.id != barang.user_id">
+            <div class="row">
+                <div class="col">
+                    <div class="card my-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Image Preview</h3>
+
+                            <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="display: block;">
+                            <div class="d-flex justify-content-center">
+                                <img :src="apiURL+'images/barang/'+barang.cover" class="img-fluid" :alt="barang.title">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="py-4">{{barang.title}}</h1>
+                    <p>{{barang.description}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <div data-toggle="modal" @click.prevent="getCheckoutModal(barang.id)" data-target="#checkoutModal" class="w-100 p-3 btn btn-success">Pesan !</div>
+                </div>
+            </div>
         </div>
         <div v-else>
             <div class="row">
@@ -106,6 +139,7 @@
 </template>
 
 <script>
+import checkoutModal from '@/components/modal/checkoutModal.vue'
 import $ from 'jquery'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
@@ -116,6 +150,9 @@ export default {
             apiURL: appConfig.apiURL,
         };
     },
+    components:{
+     checkoutModal
+   },
   created(){
     this.getBarang();
   },
@@ -126,6 +163,7 @@ export default {
                 description : '',
                 image : null
             },
+            barang_id : null,
             imagePreview: null
         }
     },
@@ -137,6 +175,9 @@ export default {
     })
   },
     methods:{
+        getCheckoutModal(id){
+            this.barang_id = id;
+        },
         onImageChange(e) {
             let files = e.target.files || e.dataTransfer.files;
             this.form.image = files[0]

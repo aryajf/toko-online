@@ -1,3 +1,4 @@
+import createPersistedState from "vuex-persistedstate"
 import axios from 'axios'
 
 export default{
@@ -58,16 +59,26 @@ export default{
       
       try{
         let response = await axios.get('profile')
-
         commit('SET_USER', response.data)
       }catch(e){
         commit('SET_TOKEN', null)
         commit('SET_USER', null)
       }
     },
+    async updateProfile({commit,state},credentials){
+      try{
+        let response = await axios.put('profile', credentials)
+        commit('SET_USER', response.data.data)
+        return response
+      }catch(e){
+        state.errors = e.response.data.data
+        return e.response
+      }
+    },
     async logout({commit}){
       commit('SET_TOKEN', null)
       commit('SET_USER', null)
     }
-  }
+  },
+  plugins: [createPersistedState()]
 }

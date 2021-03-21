@@ -3,7 +3,8 @@ import Home from '../views/Home.vue'
 import Show from '../views/Show.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Dashboard from '../views/Admin/Dashboard.vue'
+import Dashboard from '../views/dashboard/Index.vue'
+import Profile from '../views/dashboard/Profile.vue'
 import Cart from '../views/Cart.vue'
 import store from '@/store'
 // import NotFound from '../views/NotFound.vue'
@@ -37,6 +38,19 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name : 'Home'
+        })
+      }
+      next()
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     beforeEnter: (to, from, next) => {
       if(!store.getters['auth/authenticated']){
         return next({
