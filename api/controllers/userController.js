@@ -17,7 +17,7 @@ module.exports = {
         if(userValidation(userRequest, req.url) == null){
         let user = await User.findOne({where : {email: req.body.email}})
         if(!user) res.status(404).json({email: req.body.email, message: 'User tidak terdaftar', status: false})
-        if(!verifyPassword(req.body.password, user.password)) res.json({message: 'Kombinasi email dan password gk sesuai', status: false})
+        if(!verifyPassword(req.body.password, user.password)) res.status(400).json({message: 'Kombinasi email dan password gk sesuai', status: false})
 
         const token = jwt.sign(user.toJSON(), JWT_SECRET, {
             expiresIn : JWT_SECRET_EXPIRES
@@ -37,7 +37,7 @@ module.exports = {
             token : token
         })
     }else{
-        res.send(userValidation(userRequest, req.url))
+        res.status(400).send(userValidation(userRequest, req.url))
     }
     },
     register: async (req, res) => {
@@ -51,7 +51,7 @@ module.exports = {
 
         if(userValidation(userRequest, req.url) == null){
         if(user){
-            res.json({email:req.body.email, message: 'Akun sudah pernah terdaftar', status:false})
+            res.status(400).json({email:req.body.email, message: 'Akun sudah pernah terdaftar', status:false})
         }else{
             try{
                 const newUser = await User.create({
@@ -81,7 +81,7 @@ module.exports = {
             }
         }
         }else{
-            res.send(userValidation(userRequest, req.url))
+            res.status(400).send(userValidation(userRequest, req.url))
         }
     },
     index: async (req, res) => {

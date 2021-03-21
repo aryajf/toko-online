@@ -88,6 +88,10 @@ export default {
                 console.log(response);
                 if(response.status === 201){
                     this.$toast.success(response.data.message)
+                    this.form.image = null
+                    this.imagePreview = null
+                    this.form.title = ''
+                    this.form.description = ''
                 }else{
                     this.$toast.error(response.data.message)
                 }

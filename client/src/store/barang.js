@@ -93,6 +93,15 @@ export default({
             return e.response
           }
         },
+        async searchBarang({commit},keyword){
+          try{
+            let response = await axios.get(`/barang/search/${keyword}`)
+            commit('SET_RESULTS', response.data.barang)
+            return response
+          }catch(e){
+            return e.response
+          }
+        },
         async createBarang({state, dispatch},form){
           try{
             let response = await axios.post('barang', form)
@@ -100,6 +109,25 @@ export default({
             return response
           }catch(e){
             state.errors = e.response.data.data
+            return e.response
+          }
+        },
+        async updateBarang({state, dispatch},credentials){
+          try{
+            let response = await axios.put(`barang/${credentials.id}`, credentials.form)
+            dispatch('getBarangUser')
+            return response
+          }catch(e){
+            state.errors = e.response.data.data
+            return e.response
+          }
+        },
+        async deleteBarang({dispatch}, credentials){
+          try{
+            let response = await axios.delete(`barang/${credentials}`)
+            dispatch('getBarangUser')
+            return response
+          }catch(e){
             return e.response
           }
         },

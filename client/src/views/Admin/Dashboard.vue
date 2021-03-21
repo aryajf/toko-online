@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import {mapGetters} from 'vuex'
 import Create from '@/components/barang/Create.vue'
 
@@ -100,17 +99,7 @@ export default {
         catch(err => {
               console.log(err);
         })
-      },
-      deleteBarang(){
-           this.$store.dispatch('barang/deleteBarang').then((response) => {
-              $('#deleteModal').modal('hide')
-              if(response.status === 200){
-                  this.$toast.success(response.data.message)
-              }else{
-                  this.$toast.error(response.data.message)
-              }
-            })
-       },
+      }
     }
 }
 </script>

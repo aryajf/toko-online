@@ -61,28 +61,40 @@
                             <div class="d-flex justify-content-center" v-if="imagePreview">
                                 <img :src="imagePreview" class="img-fluid">
                             </div>
+                            <div class="d-flex justify-content-center" v-else>
+                                <img :src="apiURL+'images/barang/'+barang.cover" class="img-fluid" :alt="barang.title">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <form @submit.prevent="updateBarang">
             <div class="input-group my-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
             </div>
-            <div class="custom-file">
-                <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-            </div>
-        <div class="row">
-            <div class="col">
-                <input type="text" class="form-control my-3" :value="barang.title">
-                <textarea rows="8" class="form-control my-3" v-model="barang.description"></textarea>
-            </div>
-        </div>
             <div class="row">
-                <div class="col-10">
-                    <button class="w-100 p-3 btn btn-primary">Update</button>
+                <div class="col">
+                    <input placeholder="Isi judul disini" type="text" class="form-control my-3" v-model="form.title">
+                    <textarea placeholder="Isi deskripsi disini" rows="8" class="form-control my-3" v-model="form.description"></textarea>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <div class="col">
+                    <input class="w-100 p-3 btn btn-primary" type="submit" value="Update">
+                </div>
+            </div>
+            </form>
+            <div class="row pb-3">
+                <div class="col-8">
+                    <div class="w-100 p-3 alert alert-danger" role="alert">
+                        Hapus barang --->>
+                    </div>
                 </div>
                 <div class="col">
                     <button data-toggle="modal" data-target="#deleteModal" class="w-100 p-3 btn btn-danger">Delete</button>
@@ -94,6 +106,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
 export default {
@@ -103,7 +116,7 @@ export default {
             apiURL: appConfig.apiURL,
         };
     },
-  mounted(){
+  created(){
     this.getBarang();
   },
   data(){
@@ -147,10 +160,12 @@ export default {
             data.append('cover', this.form.image)
             data.append('title', this.form.title)
             data.append('description', this.form.description)
-            this.$store.dispatch('barang/updateBarang', data).then((response) => {
+            let credentials = {form: data, id : this.$route.params.id}
+            this.$store.dispatch('barang/updateBarang', credentials).then((response) => {
                 console.log(response);
                 if(response.status === 200){
                     this.$toast.success(response.data.message)
+                    this.$router.push({name: 'Dashboard'})
                 }else{
                     this.$toast.error(response.data.message)
                 }
@@ -158,7 +173,23 @@ export default {
         },
         getBarang(){
             this.$store.dispatch('barang/getBarang', this.$route.params.id).then((response) => {
-              console.log(response);
+                let barang = response.data.barang
+                this.form.title = barang.title
+                this.form.description = barang.description
+                this.form.image = barang.cover
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        deleteBarang(){
+            this.$store.dispatch('barang/deleteBarang', this.$route.params.id).then((response) => {
+              $('#deleteModal').modal('hide')
+                if(response.status === 200){
+                    this.$toast.success(response.data.message)
+                    this.$router.push({ name: 'Dashboard'})
+                }else{
+                    this.$toast.error(response.data.message)
+                }
             }).catch(err => {
                 console.log(err);
             })

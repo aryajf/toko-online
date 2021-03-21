@@ -40,6 +40,13 @@
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
             <p class="card-text">{{item.description}}</p>
+            <div>
+              <small>
+              <i class="far fa-user"></i> {{item.user_name}}
+              <i class="fas fa-pencil-alt"></i> {{item.createdAt}}
+              </small>
+            </div>
+            <hr>
             <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link> <a href="#" class="btn btn-success">Pesan!</a>
           </div>
         </div>
