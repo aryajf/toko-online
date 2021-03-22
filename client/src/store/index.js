@@ -1,15 +1,21 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
-// import axios from 'axios'
 import auth from './auth'
 import barang from './barang'
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
   state: {
-    totalBeli : []
+    totalAlert : [],
+    totalBeli : [],
   },
   mutations: {
+    SET_TOTAL_ALERT(state, data){
+      state.totalAlert.push(data)
+    },
+    CLEAR_ALERT(state){
+      state.totalAlert.length = 0
+    },
     SET_TOTAL_BELI(state, data){
       state.totalBeli.push(data)
     },
@@ -26,10 +32,16 @@ export default createStore({
     totalBeli(state){
       return state.totalBeli
     },
+    totalAlert(state){
+      return state.totalAlert
+    },
   },
   actions: {
     async setTotalBeli({commit}, barang){
       commit('SET_TOTAL_BELI', barang)
+    },
+    async totalAlert({commit}, alert){
+      commit('SET_TOTAL_ALERT', alert)
     },
     async submitTotalBeli(_, barang){
       try{
@@ -44,6 +56,9 @@ export default createStore({
     },
     async clearTotalBeli({commit}){
       commit('CLEAR_ITEM_BELI')
+    },
+    async clearTotalAlert({commit}){
+      commit('CLEAR_ALERT')
     },
   },
   modules: {

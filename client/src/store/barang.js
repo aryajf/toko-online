@@ -102,9 +102,10 @@ export default({
             return e.response
           }
         },
-        async createBarang({state, dispatch},form){
+        async createBarang({commit, state, dispatch},form){
           try{
             let response = await axios.post('barang', form)
+            commit('SET_TOTAL_ALERT', {title : 'Barang baru ditambahkan', item : response.title},{root:true})
             dispatch('getBarangUser')
             return response
           }catch(e){

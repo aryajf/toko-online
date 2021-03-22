@@ -31,7 +31,8 @@
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div id="cart-header">
-            <router-link v-for="item in totalBeli" :key="item.id" :to="'/'+item.id" class="dropdown-item">
+          <div v-for="item in totalBeli" :key="item.id">
+            <div :to="'/'+item.id" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
                 <img :src="apiURL+'images/barang/'+item.cover" :alt="item.title" class="img-size-50 mr-3 img-circle">
@@ -44,7 +45,9 @@
                 </div>
               </div>
               <!-- Message End -->
-            </router-link>
+            </div>
+            <div class="dropdown-divider"></div>
+          </div>
           </div>
           <div class="dropdown-divider"></div>
           <router-link to="/cart" class="dropdown-item dropdown-footer">Lihat Semua Belanja mu</router-link>
@@ -54,25 +57,20 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">{{totalAlert.length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
+          <span class="dropdown-header">{{totalAlert.length}} Notifikasi</span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
+          <div id="cart-header">
+          <a v-for="item in totalAlert" :key="item.id" href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> {{item.title}}
+            <div>
+              <small>{{item.item}}</small>
+            </div>
             <span class="float-right text-muted text-sm">3 mins</span>
           </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
+          </div>
         </div>
       </li>
     </ul>
@@ -91,6 +89,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+        totalAlert : 'totalAlert',
         totalBeli : 'totalBeli',
     }),
   }
