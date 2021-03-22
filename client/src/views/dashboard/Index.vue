@@ -61,12 +61,14 @@
                           <thead class="thead-dark">
                             <tr>
                               <th scope="col">Nama</th>
+                              <th scope="col">Total Barang</th>
                               <th scope="col">Dibuat pada</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr v-for="item in barang" :key="item.id">
                               <td><router-link :to="'/'+item.id">{{item.title}}</router-link></td>
+                              <td>{{item.total}}</td>
                               <td>{{item.createdAt}}</td>
                             </tr>
                           </tbody>

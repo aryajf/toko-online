@@ -30,22 +30,24 @@
           <span class="badge badge-danger navbar-badge">{{totalBeli.length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <router-link v-for="item in totalBeli" :key="item.id" :to="'/'+item.id" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img :src="apiURL+'images/barang/'+item.cover" :alt="item.title" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  {{item.title}}
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm text-muted"><i class="fas fa-user mr-1"></i> {{item.user_name}}</p>
+          <div id="cart-header">
+            <router-link v-for="item in totalBeli" :key="item.id" :to="'/'+item.id" class="dropdown-item">
+              <!-- Message Start -->
+              <div class="media">
+                <img :src="apiURL+'images/barang/'+item.cover" :alt="item.title" class="img-size-50 mr-3 img-circle">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    {{item.title}}
+                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                  </h3>
+                  <p class="text-sm text-muted"><i class="fas fa-box"></i> {{item.total}} <i class="fas fa-pencil-alt"></i> {{item.user_name}}</p>
+                </div>
               </div>
-            </div>
-            <!-- Message End -->
-          </router-link>
+              <!-- Message End -->
+            </router-link>
+          </div>
           <div class="dropdown-divider"></div>
-          <router-link to="/cart" class="dropdown-item dropdown-footer">See All Messages</router-link>
+          <router-link to="/cart" class="dropdown-item dropdown-footer">Lihat Semua Belanja mu</router-link>
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
@@ -71,8 +73,6 @@
             <i class="fas fa-file mr-2"></i> 3 new reports
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
     </ul>
@@ -96,3 +96,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+#cart-header{
+  height:250px;
+  overflow-y:scroll
+}
+</style>

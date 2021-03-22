@@ -102,19 +102,44 @@
                 </div>
             </div>
             <form @submit.prevent="updateBarang">
-            <div class="input-group my-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                </div>
-                <div class="custom-file">
-                    <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                </div>
-            </div>
             <div class="row">
                 <div class="col">
-                    <input placeholder="Isi judul disini" type="text" class="form-control my-3" v-model="form.title">
-                    <textarea placeholder="Isi deskripsi disini" rows="8" class="form-control my-3" v-model="form.description"></textarea>
+                    <div class="input-group my-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" v-model="form.title" class="form-control" placeholder="Nama Barang" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-shopping-cart"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input min="1" type="number" v-model="form.total" class="form-control" placeholder="Jumlah Barang" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-box"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group my-3">
+                        <textarea rows="4" v-model="form.description" class="form-control" placeholder="Deskripsi Barang" required>
+                        </textarea>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-pencil-alt"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row pb-3">
@@ -161,6 +186,7 @@ export default {
             form : {
                 title: '',
                 description : '',
+                total : 1,
                 image : null
             },
             barang_id : null,
@@ -200,6 +226,7 @@ export default {
             const data = new FormData()
             data.append('cover', this.form.image)
             data.append('title', this.form.title)
+            data.append('total', this.form.total)
             data.append('description', this.form.description)
             let credentials = {form: data, id : this.$route.params.id}
             this.$store.dispatch('barang/updateBarang', credentials).then((response) => {
@@ -217,6 +244,7 @@ export default {
                 let barang = response.data.barang
                 this.form.title = barang.title
                 this.form.description = barang.description
+                this.form.total = barang.total
                 this.form.image = barang.cover
             }).catch(err => {
                 console.log(err);

@@ -10,6 +10,7 @@
             </button>
         </div>
         <div class="modal-body">
+            {{totalBeli}}
             <div class="row">
                 <div class="col">
                     <div class="input-group mb-3">
@@ -44,8 +45,9 @@ export default {
                 id : null,
                 total : 1,
                 title : '',
+                description : '',
                 cover : '',
-                user_name : '',
+                user_id : '',
             }
         }
     },
@@ -72,8 +74,10 @@ export default {
             this.$store.dispatch('barang/getBarang', this.barang_id).then((response) => {
                 this.form.id = response.data.barang.id
                 this.form.title = response.data.barang.title
+                this.form.description = response.data.barang.description
                 this.form.cover = response.data.barang.cover
-                this.form.user_name = response.data.barang.user_name
+                this.form.user_id = response.data.barang.user_id
+                this.form.user_id = response.data.barang.user_id
             }).catch(err => {
                 console.log(err);
             })

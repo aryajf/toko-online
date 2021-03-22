@@ -281,8 +281,31 @@ module.exports = {
                 })
             }
         }else{res.status(404).json({message : 'Barang tidak ditemukan', status: false})}
-
-    }
+    },
+    purchase: async (req, res) => {
+        const barang = await Barang.findAll()
+        // let requestBarang = []
+        let total = null
+        
+        
+        barang.map(item=>{
+            req.body.map(async (result)=>{
+                if(item.id == result.id){
+                    item.total -= parseInt(result.total)
+                    console.log(item.total);
+                    await Barang.update({ total: item.total }, {
+                        where: {
+                            id: item.id
+                        }
+                    });
+                }
+            })
+        })
+        // console.log(req.body);
+        // console.log('=========');
+        // console.log(requestBarang);
+        // await Barang.bulkCreate(requestBarang, { updateOnDuplicate: ["total"] })
+    },
 }
 
 function barangValidation(dataRequest, method){

@@ -17,6 +17,7 @@ router.get('/', function(req, res) {
 router.post('/login', userController.login)
 router.post('/register', userController.register)
 
+// Profile
 router.route('/profile')
   .get(checkAuth, userController.profile)
   .put(checkAuth, fileUpload.single('profile'), userController.update)
@@ -33,5 +34,9 @@ router.route('/barang/:id')
   .get(barangController.show)
   .put(checkAuth, fileUpload.single('cover'), barangController.update)
   .delete(checkAuth, barangController.delete)
+
+// Purchase
+router.route('/purchase')
+  .put(checkAuth, barangController.purchase)
 
 module.exports = router;

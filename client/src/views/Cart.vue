@@ -12,7 +12,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Belum..Mau cek lagi</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal">Tentu Saja!</button>
+            <button @click="submitBarang" type="button" class="btn btn-success" data-dismiss="modal">Tentu Saja!</button>
         </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body" style="display: block;">
                         <template v-if="totalBeli.length == 0">
-                            <div class="alert alert-danger">Anda belum memesan barang apapun, <router-link to="/">dulu gihh</router-link></div>
+                            <div class="alert alert-danger">Anda belum memesan barang apapun, <router-link to="/">pesan dulu gihh</router-link></div>
                         </template>
                         <template v-else>
                             <div>
@@ -81,10 +81,15 @@ export default {
         })
     },
     methods : {
-        removeCart(id){
-            this.$store.dispatch('removeTotalBeli', this.form)
+        removeCart(){
+            this.$store.dispatch('removeTotalBeli')
             this.$toast.error("Barang berhasil dihapus dari keranjang")
         },
+        submitBarang(){
+            this.$store.dispatch('submitTotalBeli', this.totalBeli)
+            this.$store.dispatch('clearTotalBeli')
+            this.$toast.success("Barang berhasil dibeli")
+        }
     }
 }
 </script>

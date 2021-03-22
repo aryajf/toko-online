@@ -17,6 +17,7 @@
           </div>
       </div>
     </div>
+    <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
     <div class="container-fluid">
     <div class="row mb-2">
       <div class="col">
@@ -66,7 +67,9 @@
             <hr>
             <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link>&nbsp;
             <template v-if="authenticated">
-              <a href="#" class="btn btn-success">Pesan!</a>
+              <template v-if="user.id != item.user_id">
+                <!-- <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="btn btn-success">Pesan!</a> -->
+              </template>
             </template>
             <template v-else>
               <a data-toggle="modal" data-target="#loginModal" href="#" class="btn btn-success">Pesan!</a>
@@ -80,6 +83,7 @@
 </template>
 
 <script>
+import checkoutModal from '@/components/modal/checkoutModal.vue'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
 export default {
@@ -89,6 +93,14 @@ export default {
             apiURL: appConfig.apiURL,
         };
     },
+    data(){
+      return{
+        barang_id : null
+      }
+    },
+    components:{
+     checkoutModal
+   },
   created(){
     this.getSemuaBarang();
   },
@@ -96,10 +108,14 @@ export default {
     ...mapGetters({
         authenticated : 'auth/authenticated',
         barang : 'barang/semuaBarang',
+        user : 'auth/user',
         // errors : 'auth/errors'
     })
   },
     methods:{
+        getCheckoutModal(id){
+            this.barang_id = id;
+        },
         getSemuaBarang(){
             this.$store.dispatch('barang/getSemuaBarang').then((response) => {
               console.log(response);
