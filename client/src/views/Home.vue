@@ -69,7 +69,7 @@
             <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link>&nbsp;
             <template v-if="authenticated">
               <template v-if="user.id != item.user_id">
-                <!-- <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="btn btn-success">Pesan!</a> -->
+                <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="btn btn-success">Pesan!</a>
               </template>
             </template>
             <template v-else>

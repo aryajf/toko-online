@@ -60,7 +60,7 @@ export default {
     },
     watch : {
         barang_id : function(){
-            this.getBarang();
+            this.getBarang()
         }
     },
     methods : {
@@ -68,6 +68,7 @@ export default {
             this.form.total = parseInt(this.form.total)
             this.$store.dispatch('setTotalBeli', this.form)
             this.$toast.success("Barang berhasil ditambahkan ke keranjang")
+            this.$router.push({ name: 'Cart'})
         },
         getBarang(){
             this.$store.dispatch('barang/getBarang', this.barang_id).then((response) => {
