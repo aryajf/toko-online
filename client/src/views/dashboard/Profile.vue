@@ -114,7 +114,6 @@ export default {
         data.append('name', this.form.name)
         data.append('email', this.form.email)
         this.$store.dispatch('auth/updateProfile', this.form).then((response) => {
-            console.log(response);
             if(response.status === 200){
                 this.$toast.success(response.data.message)
                 this.$router.push({name: 'Dashboard'})

@@ -10,16 +10,16 @@
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <div class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input v-model="keyword" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
           <button class="btn btn-navbar" type="submit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+    </div>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -32,7 +32,7 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div id="cart-header">
           <div v-for="item in totalBeli" :key="item.id">
-            <div :to="'/'+item.id" class="dropdown-item">
+            <router-link :to="'/'+item.id" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
                 <img :src="apiURL+'images/barang/'+item.cover" :alt="item.title" class="img-size-50 mr-3 img-circle">
@@ -45,7 +45,7 @@
                 </div>
               </div>
               <!-- Message End -->
-            </div>
+            </router-link>
             <div class="dropdown-divider"></div>
           </div>
           </div>
@@ -60,22 +60,37 @@
           <span class="badge badge-warning navbar-badge">{{totalAlert.length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div>
           <span class="dropdown-header">{{totalAlert.length}} Notifikasi</span>
           <div class="dropdown-divider"></div>
           <div id="cart-header">
           <a v-for="item in totalAlert" :key="item.id" href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> {{item.title}}
-            <div>
-              <small>{{item.item}}</small>
-            </div>
-            <span class="float-right text-muted text-sm">3 mins</span>
           </a>
           </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="#" @click="removeAlert" class="dropdown-item dropdown-footer">Hapus Histori</a>
         </div>
       </li>
     </ul>
   </nav>
   <!-- /.navbar -->
+  
+  <div v-if="results.length">
+  <div class="main-header navbar navbar-expand navbar-white navbar-light">
+    <h4 class="ml-1">Semua pencarian :</h4>
+  </div>
+  <div id="result" v-for="result in results" :key="result.id" class="main-header navbar navbar-expand navbar-white navbar-light">
+    <router-link class="list-group-item w-100 search-link" :to="'/'+result.id" :style="`--i: ${result.id}`">
+        <div class="row">
+          <div class="col-8">{{result.title}}</div>
+          <div class="col"><i class="fas fa-box"></i> {{result.total}}</div>
+          <div class="col"><i class="fas fa-pencil-alt"></i> {{result.user_name}}</div>
+        </div>
+    </router-link>
+  </div>
+  </div>
     </div>
 </template>
 <script>
@@ -87,17 +102,43 @@ export default {
       apiURL: appConfig.apiURL,
     };
   },
+  data(){
+      return {
+          keyword : null
+      }
+  },
+  created(){
+    this.search()
+  },
+  watch: {
+      keyword() {
+          this.search()
+      }
+  },
   computed: {
     ...mapGetters({
         totalAlert : 'totalAlert',
         totalBeli : 'totalBeli',
-    }),
-  }
+        results : 'barang/results',
+    })
+  },
+  methods: {
+      search(){
+          this.$store.dispatch('barang/searchBarang', this.keyword)
+      },
+      removeAlert(){
+          this.$store.dispatch('clearTotalAlert')
+          this.$toast.success('Notifikasi berhasil dihapus')
+      }
+  },
 }
 </script>
 <style scoped>
 #cart-header{
   height:250px;
   overflow-y:scroll
+}
+#result{
+  z-index: 0;
 }
 </style>

@@ -23,12 +23,14 @@ router.route('/profile')
   .put(checkAuth, fileUpload.single('profile'), userController.update)
 
 // Barang
+router.get('/barang/search/:keyword', barangController.search);
 router.route('/barang/user')
   .get(checkAuth, barangController.withUser)
 
 router.route('/barang')
   .get(barangController.index)
   .post(checkAuth, fileUpload.single('cover'), barangController.store)
+
 
 router.route('/barang/:id')
   .get(barangController.show)

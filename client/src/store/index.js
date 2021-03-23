@@ -43,9 +43,13 @@ export default createStore({
     async totalAlert({commit}, alert){
       commit('SET_TOTAL_ALERT', alert)
     },
-    async submitTotalBeli(_, barang){
+    async submitTotalBeli({commit}, barang){
       try{
         let response = await axios.put('purchase', barang)
+        barang.map((item)=>{
+          console.log(item)
+          commit('SET_TOTAL_ALERT', {title : `${item.title} dibeli oleh ${item.user_name}`})
+        })
         return response
       }catch(e){
         return e.response

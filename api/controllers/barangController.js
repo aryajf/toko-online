@@ -1,4 +1,5 @@
-const {Barang, Role, User} = require('../models')
+const {Barang, User} = require('../models')
+const { Op } = require("sequelize");
 const validatorMessage = require('../config/validatorMessage')
 const Validator = require('fastest-validator')
 const fs = require('fs')
@@ -282,12 +283,75 @@ module.exports = {
             }
         }else{res.status(404).json({message : 'Barang tidak ditemukan', status: false})}
     },
+    search: async (req, res) => {
+        const barang = await Barang.findAll({
+            where:{
+                title : {
+                    [Op.like]: `%${req.params.keyword}%`,
+                }
+            },
+            include: {
+                model: User,
+                as: 'user'
+            }
+        })
+
+        if(barang != null){
+            res.json({
+                message : 'Pencarian barang berhasil',
+                barang: barang.map(barang => {
+                    return{
+                        id: barang.id,
+                        title: barang.title,
+                        total: barang.total,
+                        cover: barang.cover,
+                        user_name: barang.user.name,
+                    }
+                }),
+                request : {
+                    method: req.method,
+                    url: process.env.BASE_URL + '/barang/' + req.params.keyword
+                },
+                status: true
+            })
+        }else{
+            res.json({
+                message : 'Barang tidak ditemukan',
+                request : {
+                    method: req.method,
+                    url: process.env.BASE_URL + '/barang/' + req.params.keyword
+                },
+                status: true
+            })
+        }
+    },
     purchase: async (req, res) => {
         const barang = await Barang.findAll()
-        // let requestBarang = []
-        let total = null
         
-        
+        // barang.map(item=>{
+        //     req.body.map(async (result)=>{
+        //         if(item.id == result.id){
+        //             if(parseInt(result.total) > item.id){
+        //                 res.status(400).json({
+        //                     message : `Stok Barang ${result.title} Habis`,
+        //                     request : {
+        //                         method: req.method,
+        //                         url: process.env.BASE_URL + '/barang/purchase'
+        //                     },
+        //                     status: true
+        //                 })
+        //             }else{
+        //                 item.total -= parseInt(result.total)
+        //                 console.log(item.total);
+        //                 await Barang.update({ total: item.total }, {
+        //                     where: {
+        //                         id: item.id
+        //                     }
+        //                 })
+        //             }
+        //         }
+        //     })
+        // })
         barang.map(item=>{
             req.body.map(async (result)=>{
                 if(item.id == result.id){
@@ -297,14 +361,18 @@ module.exports = {
                         where: {
                             id: item.id
                         }
-                    });
+                    })
                 }
             })
         })
-        // console.log(req.body);
-        // console.log('=========');
-        // console.log(requestBarang);
-        // await Barang.bulkCreate(requestBarang, { updateOnDuplicate: ["total"] })
+        res.json({
+            message : 'Barang Berhasil Dibeli, Terima Kasih sudah belanja :)',
+            request : {
+                method: req.method,
+                url: process.env.BASE_URL + '/barang/purchase'
+            },
+            status: true
+        })
     },
 }
 

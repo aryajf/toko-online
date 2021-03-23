@@ -11,16 +11,16 @@ module.exports =
   },
   "test": {
     "username": DB_USERNAME,
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "password": DB_PASSWORD,
+    "database": DB_DATABASE,
+    "host": DB_HOST,
     "dialect": "mysql"
   },
   "production": {
     "username": DB_USERNAME,
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": DB_PASSWORD,
+    "database": DB_DATABASE,
+    "host": DB_HOST,
     "dialect": "mysql"
   }
 }

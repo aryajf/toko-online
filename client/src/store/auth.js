@@ -77,7 +77,6 @@ export default{
     },
     async logout({commit}){
       commit('CLEAR_ITEM_BELI',0,{root:true})
-      commit('CLEAR_ALERT',0,{root:true})
       commit('SET_TOKEN', null)
       commit('SET_USER', null)
     }

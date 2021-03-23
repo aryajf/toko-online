@@ -22,6 +22,6 @@ app.use(cookieParser());
 app.use('/images', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api',router);
+app.use('/',router);
 
 module.exports = app;

@@ -200,6 +200,11 @@ export default {
         authenticated : 'auth/authenticated'
     })
   },
+  watch: {
+        $route() {
+            this.getBarang()
+        }
+    },
     methods:{
         getCheckoutModal(id){
             this.barang_id = id;
@@ -230,7 +235,6 @@ export default {
             data.append('description', this.form.description)
             let credentials = {form: data, id : this.$route.params.id}
             this.$store.dispatch('barang/updateBarang', credentials).then((response) => {
-                console.log(response);
                 if(response.status === 200){
                     this.$toast.success(response.data.message)
                     this.$router.push({name: 'Dashboard'})
@@ -247,7 +251,7 @@ export default {
                 this.form.total = barang.total
                 this.form.image = barang.cover
             }).catch(err => {
-                console.log(err);
+                console.log(err)
             })
         },
         deleteBarang(){

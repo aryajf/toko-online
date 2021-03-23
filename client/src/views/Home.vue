@@ -49,7 +49,7 @@
     </div>
     </div>
     </div>
-    <h1 class="d-flex justify-content-center py-1">Buruan Pesan disini!!</h1>
+    <h1 class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h1>
     <hr>
     <div class="row">
       <div class="col-md-3" v-for="item in barang" :key="item.id">
@@ -58,9 +58,10 @@
           <div class="card-body">
             <h5 class="card-title">{{item.title}}</h5>
             <p class="card-text">{{item.description}}</p>
-            <div>
+            <div class="d-flex justify-content-between">
               <small>
-              <i class="far fa-user"></i> {{item.user_name}}
+              <i class="far fa-user"></i> {{item.user_name}} 
+              <i class="fas fa-box"></i> {{item.total}} 
               <i class="fas fa-pencil-alt"></i> {{item.createdAt}}
               </small>
             </div>
@@ -117,8 +118,7 @@ export default {
             this.barang_id = id;
         },
         getSemuaBarang(){
-            this.$store.dispatch('barang/getSemuaBarang').then((response) => {
-              console.log(response);
+            this.$store.dispatch('barang/getSemuaBarang').then(() => {
             }).catch(err => {
                 console.log(err);
             })

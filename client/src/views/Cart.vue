@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Pembelanjaan</h3>
-
+                        {{totalBeli}}
                         <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fas fa-minus"></i></button>
@@ -86,9 +86,14 @@ export default {
             this.$toast.error("Barang berhasil dihapus dari keranjang")
         },
         submitBarang(){
-            this.$store.dispatch('submitTotalBeli', this.totalBeli)
-            this.$store.dispatch('clearTotalBeli')
-            this.$toast.success("Barang berhasil dibeli")
+            this.$store.dispatch('submitTotalBeli', this.totalBeli).then((response) => {
+                if(response.status == 200){
+                    this.$store.dispatch('clearTotalBeli')
+                    this.$toast.success(response.data.message)
+                }else{
+                    this.$toast.error(response.data.message)
+                }
+            })
         }
     }
 }

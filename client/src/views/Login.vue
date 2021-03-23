@@ -51,7 +51,6 @@ export default {
   methods: {
 		submit(){
 			this.$store.dispatch('auth/signin', this.form).then((response) => {
-        console.log(response);
         if(response.status == 200){
           this.$toast.success(response.data.message)
           this.$router.push({ name: 'Home'})

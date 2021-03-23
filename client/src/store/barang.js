@@ -31,7 +31,10 @@ export default({
         },
         SET_RESULTS(state, data){
             state.results = data
-        }
+        },
+        CLEAR_RESULTS(state){
+          state.results.length = 0
+        },
     },
     getters : {
         populars(state){
@@ -94,18 +97,20 @@ export default({
           }
         },
         async searchBarang({commit},keyword){
+          
           try{
-            let response = await axios.get(`/barang/search/${keyword}`)
+            let response = await axios.get(`barang/search/${keyword}`)
             commit('SET_RESULTS', response.data.barang)
             return response
           }catch(e){
+            commit('CLEAR_RESULTS')
             return e.response
           }
         },
         async createBarang({commit, state, dispatch},form){
           try{
             let response = await axios.post('barang', form)
-            commit('SET_TOTAL_ALERT', {title : 'Barang baru ditambahkan', item : response.title},{root:true})
+            commit('SET_TOTAL_ALERT', {title : 'Barang baru ditambahkan'},{root:true})
             dispatch('getBarangUser')
             return response
           }catch(e){

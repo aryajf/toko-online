@@ -95,7 +95,6 @@ export default {
             data.append('total', this.form.total)
             data.append('description', this.form.description)
             this.$store.dispatch('barang/createBarang', data).then((response) => {
-                console.log(response);
                 if(response.status === 201){
                     this.$toast.success(response.data.message)
                     this.form.image = null

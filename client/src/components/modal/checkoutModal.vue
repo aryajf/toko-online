@@ -10,7 +10,6 @@
             </button>
         </div>
         <div class="modal-body">
-            {{totalBeli}}
             <div class="row">
                 <div class="col">
                     <div class="input-group mb-3">
@@ -47,7 +46,7 @@ export default {
                 title : '',
                 description : '',
                 cover : '',
-                user_id : '',
+                user_name : '',
             }
         }
     },
@@ -66,7 +65,7 @@ export default {
     },
     methods : {
         toTheCart(){
-            parseInt(this.form.total)
+            this.form.total = parseInt(this.form.total)
             this.$store.dispatch('setTotalBeli', this.form)
             this.$toast.success("Barang berhasil ditambahkan ke keranjang")
         },
@@ -76,8 +75,7 @@ export default {
                 this.form.title = response.data.barang.title
                 this.form.description = response.data.barang.description
                 this.form.cover = response.data.barang.cover
-                this.form.user_id = response.data.barang.user_id
-                this.form.user_id = response.data.barang.user_id
+                this.form.user_name = response.data.barang.user_name
             }).catch(err => {
                 console.log(err);
             })
