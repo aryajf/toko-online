@@ -17,6 +17,10 @@
         </div>
     </div>
     </div>
+    <template v-if="loading">
+        <loading></loading>
+    </template>
+    <template v-else>
         <div class="container-fluid">
             <div class="row pt-4">
             <div class="col-12">
@@ -68,15 +72,21 @@
             </div>
         </div>
         </div>
+    </template>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import Loading from '@/components/Loading'
 export default {
+    components:{
+     Loading
+   },
     computed: {
         ...mapGetters({
             totalBeli : 'totalBeli',
+            loading : 'loading'
         })
     },
     methods : {

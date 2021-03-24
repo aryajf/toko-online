@@ -8,7 +8,6 @@ export default({
         barang : [],
         barang_alert : '',
         results : [],
-        loading : true
     },
     mutations : {
         SET_POPULARS(state, data){
@@ -25,9 +24,6 @@ export default({
         },
         SET_BARANG_ALERT(state, data){
             state.barang_alert = data
-        },
-        SET_LOADING(state, data){
-            state.loading = data
         },
         SET_RESULTS(state, data){
             state.results = data
@@ -54,9 +50,6 @@ export default({
         },
         results(state){
           return state.results
-        },
-        loading(state){
-          return state.loading
         }
       },
     actions: {
@@ -70,29 +63,38 @@ export default({
         //     }
         // },
         async getSemuaBarang({commit}){
+          commit('SET_LOADING', true, {root:true})
             try{
               let response = await axios.get('barang')
               commit('SET_SEMUA_BARANG', response.data.barang)
+              commit('SET_LOADING', false, {root:true})
               return response
             }catch(e){
+              commit('SET_LOADING', false, {root:true})
               return e.response
             }
         },
         async getBarang({commit}, credentials){
+          commit('SET_LOADING', true, {root:true})
           try{
             let response = await axios.get(`barang/${credentials}`)
             commit('SET_BARANG', response.data.barang)
+            commit('SET_LOADING', false, {root:true})
             return response
           }catch(e){
+            commit('SET_LOADING', false, {root:true})
             return e.response
           }
         },
         async getBarangUser({commit}){
+          commit('SET_LOADING', true, {root:true})
           try{
             let response = await axios.get(`barang/user`)
             commit('SET_BARANG_USER', response.data.barang)
+            commit('SET_LOADING', false, {root:true})
             return response
           }catch(e){
+            commit('SET_LOADING', false, {root:true})
             return e.response
           }
         },

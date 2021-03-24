@@ -18,6 +18,11 @@
       </div>
     </div>
     <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
+
+    <template v-if="loading">
+        <loading></loading>
+    </template>
+    <template v-else>
     <div class="container-fluid">
     <div class="row mb-2">
       <div class="col">
@@ -93,12 +98,14 @@
       </div>
     </div>
   </div>
+  </template>
   </div>
 </template>
 
 <script>
 import checkoutModal from '@/components/modal/checkoutModal.vue'
 import appConfig from "../config/app"
+import Loading from '@/components/Loading'
 import {mapGetters} from 'vuex'
 export default {
   name: 'Home',
@@ -113,7 +120,7 @@ export default {
       }
     },
     components:{
-     checkoutModal
+     checkoutModal,Loading
    },
   created(){
     this.getSemuaBarang();
@@ -123,6 +130,7 @@ export default {
         authenticated : 'auth/authenticated',
         barang : 'barang/semuaBarang',
         user : 'auth/user',
+        loading : 'loading'
         // errors : 'auth/errors'
     })
   },

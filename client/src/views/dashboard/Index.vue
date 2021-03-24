@@ -1,5 +1,9 @@
 <template>
     <div>
+      <template v-if="loading">
+        <loading></loading>
+    </template>
+    <template v-else>
         <section class="content-header">
       <h1 v-if="this.user" class="py-3">
         Selamat datang {{this.user.name}}
@@ -61,16 +65,18 @@
             </div>
         </div>
     </div>
+    </template>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
 import Create from '@/components/barang/Create.vue'
+import Loading from '@/components/Loading'
 
 export default {
     components:{
-      Create
+      Create, Loading
     },
     created(){
       this.getBarangUser();
@@ -78,7 +84,8 @@ export default {
     computed: {
       ...mapGetters({
           user : 'auth/user',
-          barang : 'barang/baranguser'
+          barang : 'barang/baranguser',
+          loading : 'loading'
           // errors : 'auth/errors'
       })
     },

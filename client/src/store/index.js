@@ -8,6 +8,7 @@ export default createStore({
   state: {
     totalAlert : [],
     totalBeli : [],
+    loading : true,
   },
   mutations: {
     SET_TOTAL_ALERT(state, data){
@@ -27,6 +28,9 @@ export default createStore({
     CLEAR_ITEM_BELI(state){
       state.totalBeli.length = 0
     },
+    SET_LOADING(state, data){
+      state.loading = data
+    },
   },
   getters: {
     totalBeli(state){
@@ -34,6 +38,9 @@ export default createStore({
     },
     totalAlert(state){
       return state.totalAlert
+    },
+    loading(state){
+      return state.loading
     },
   },
   actions: {

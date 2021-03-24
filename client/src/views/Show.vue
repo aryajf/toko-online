@@ -18,6 +18,10 @@
         </div>
     </div>
     <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
+    <template v-if="loading">
+        <loading></loading>
+    </template>
+    <template v-else>
     <div class="container">
         <div v-if="!authenticated">
             <div class="row">
@@ -160,6 +164,7 @@
             </div>
         </div>
     </div>
+    </template>
 </div>
 </template>
 
@@ -168,6 +173,7 @@ import checkoutModal from '@/components/modal/checkoutModal.vue'
 import $ from 'jquery'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
+import Loading from '@/components/Loading'
 export default {
   name: 'Home',
   setup() {
@@ -176,7 +182,7 @@ export default {
         };
     },
     components:{
-     checkoutModal
+     checkoutModal,Loading
    },
   created(){
     this.getBarang();
@@ -197,7 +203,8 @@ export default {
     ...mapGetters({
         barang : 'barang/barang',
         user : 'auth/user',
-        authenticated : 'auth/authenticated'
+        authenticated : 'auth/authenticated',
+        loading : 'loading'
     })
   },
   watch: {
