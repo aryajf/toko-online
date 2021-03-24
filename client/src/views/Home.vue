@@ -56,25 +56,38 @@
         <div class="card">
           <img class="card-img-top" :src="apiURL+'images/barang/'+item.cover" :alt="item.title">
           <div class="card-body">
-            <h5 class="card-title">{{item.title}}</h5>
+            <router-link :to="'/'+item.id" class="card-title"><h5>{{item.title}}</h5></router-link>
             <p class="card-text">{{item.description}}</p>
             <div class="d-flex justify-content-between">
               <small>
-              <i class="far fa-user"></i> {{item.user_name}} 
-              <i class="fas fa-box"></i> {{item.total}} 
-              <i class="fas fa-pencil-alt"></i> {{item.createdAt}}
+                <div class="row mb-2">
+                  <div class="col">
+                <i class="far fa-user"></i> {{item.user_name}} 
+                </div>
+                <div class="col">
+                <i class="fas fa-box"></i> {{item.total}}
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                  <i class="fas fa-pencil-alt"></i> {{item.createdAt}}
+                  </div>
+                </div>
               </small>
             </div>
             <hr>
-            <router-link :to="'/'+item.id" class="btn btn-secondary">Read More</router-link>&nbsp;
-            <template v-if="authenticated">
-              <template v-if="user.id != item.user_id">
-                <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="btn btn-success">Pesan!</a>
+            <div class="row">
+              <div class="col">
+              <template v-if="authenticated">
+                <template v-if="user.id != item.user_id">
+                  <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="w-100 btn btn-success">Pesan!</a>
+                </template>
               </template>
-            </template>
-            <template v-else>
-              <a data-toggle="modal" data-target="#loginModal" href="#" class="btn btn-success">Pesan!</a>
-            </template>
+              <template v-else>
+                <a data-toggle="modal" data-target="#loginModal" href="#" class="w-100 btn btn-success">Pesan!</a>
+              </template>
+              </div>
+            </div>
           </div>
         </div>
       </div>

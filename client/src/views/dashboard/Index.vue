@@ -1,48 +1,29 @@
 <template>
     <div>
         <section class="content-header">
-      <h1 class="pb-3">
+      <h1 v-if="this.user" class="py-3">
         Selamat datang {{this.user.name}}
       </h1>
-      <h1 class="pb-3">
-        Dashboard
-        <small>Version 2.0</small>
-      </h1>
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-blue"><i class="fas fa-cogs"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
-              <span class="info-box-number">90<small>%</small></span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="fas fa-users"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-      </div>
     </section>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
                 <Create></Create>
             </div>
-            <div class="col-8">
+            <div class="col-md-8">
+            <div class="col-4">
+              <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fas fa-boxes"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Jumlah Barang</span>
+                  <span class="info-box-number">{{barang.length}}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Barang</h3>
@@ -76,6 +57,7 @@
                       </template>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

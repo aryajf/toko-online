@@ -4,10 +4,19 @@ const { JWT_SECRET, JWT_SECRET_EXPIRES } = process.env
 const jwt = require('jsonwebtoken')
 const Validator = require('fastest-validator')
 const validatorMessage = require('../config/validatorMessage')
+const fs = require('fs')
+const path = require('path')
+const sharp = require('sharp')
+const directory = path.join(__dirname, '../public/images/users/')
 
 module.exports = {
     profile: async (req, res) => {
-        res.json(req.decoded)
+        const user = await User.findOne({
+            where : {
+                id : req.decoded.id
+            }
+        })
+        res.json(user)
     },
     login: async (req, res) => {
         const userRequest = {
@@ -135,15 +144,24 @@ module.exports = {
                 email: req.body.email,
                 profile: fileName
             }
+            // console.log(requestUser);
 
             if(userValidation(requestUser, req.url) == null){
                 if(user != null){
                     try{
                         // Check File Exists
                         const existsPath = directory + user.profile
-                        if(fs.existsSync(existsPath)){
-                            fs.unlinkSync(existsPath)
+                        if(user.profile !=null){
+                            if(fs.existsSync(existsPath)){
+                                fs.unlinkSync(existsPath)
+                            }
                         }
+                        if(!fs.existsSync(existsPath)){
+                            fs.mkdirSync(existsPath);
+                        }
+
+                        
+                        // Create Folder
                         user.update(requestUser)
                         sharp(req.file.buffer).resize(640,480).jpeg({
                             quality: 80,
@@ -154,11 +172,12 @@ module.exports = {
                                 id: user.id,
                                 name: user.name,
                                 email: user.email,
+                                profile: user.profile,
                             },
                             message: 'Profil berhasil diperbarui',
                             request: {
                                 method: req.method,
-                                url: process.env.BASE_URL + '/user/' + req.params.id
+                                url: process.env.BASE_URL + '/user/profile'
                             },
                             status: true
                         })
@@ -194,7 +213,7 @@ module.exports = {
                             message: 'Profil berhasil diperbarui',
                             request: {
                                 method: req.method,
-                                url: process.env.BASE_URL + '/user/' + req.params.slug
+                                url: process.env.BASE_URL + '/user/profile'
                             },
                             status: true
                         })

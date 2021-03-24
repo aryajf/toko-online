@@ -33,7 +33,7 @@ export default{
         let response = await axios.post('register', credentials)
         return response
       }catch(e){
-        state.errors = e.response.data.data
+        state.errors = e.response.data.errors
         return e.response
       }
     },
@@ -44,7 +44,7 @@ export default{
         dispatch('attempt', response.data.token)
         return response
       }catch(e){
-        state.errors = e.response.data.data
+        state.errors = e.response.data.errors
         return e.response
       }
     },
@@ -65,10 +65,19 @@ export default{
         commit('SET_USER', null)
       }
     },
-    async updateProfile({commit,state},credentials){
+    async getProfile({commit,state}){
+      try{
+        let response = await axios.get('profile')
+        commit('SET_USER', response.data)
+        return response.data
+      }catch(e){
+        state.errors = e.response.data
+        return e.response
+      }
+    },
+    async updateProfile({state},credentials){
       try{
         let response = await axios.put('profile', credentials)
-        commit('SET_USER', response.data.data)
         return response
       }catch(e){
         state.errors = e.response.data.data

@@ -13,6 +13,8 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'admin-lte/dist/css/adminlte.min.css'
 import 'admin-lte/dist/js/adminlte.min.js'
 
+import 'animate.css'
+
 import '@fortawesome/fontawesome-free/js/all.js'
 
 require('@/store/subscriber')

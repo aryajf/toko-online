@@ -24,12 +24,17 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
+        <div v-if="this.user" class="image">
+          <div v-if="this.user.profile != null">
+            <img class="img-circle elevation-2" :src="apiURL+'images/users/'+this.user.profile" :alt="this.user.name">
+          </div>
+          <div v-else>
+            <img class="img-circle elevation-2" src="@/assets/images/user/profile.jpg" alt="User">
+          </div>
         </div>
         <div class="info">
           <template v-if="authenticated">
-          <router-link to="/dashboard" class="d-block">{{this.user.name}}</router-link>
+          <router-link to="/profile" class="d-block">{{this.user.name}}</router-link>
           </template>
           <template v-else>
             <router-link to="#" class="d-block">Not Registered</router-link>
@@ -99,7 +104,13 @@
 <script>
 import $ from 'jquery'
 import {mapGetters} from 'vuex'
+import appConfig from "../config/app"
 export default {
+  setup() {
+        return {
+            apiURL: appConfig.apiURL,
+        };
+    },
   computed: {
     ...mapGetters({
         user : 'auth/user',

@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="content-header">
-        <h1 class="pb-3">
+        <h1 v-if="this.user" class="pb-3">
           Selamat datang {{this.user.name}}
         </h1>
         <h5 class="mb-4">Ubah profil mu disini</h5>
@@ -11,7 +11,12 @@
                 <img :src="imagePreview" class="img-fluid">
             </div>
             <div v-else>
-              <img src="@/assets/images/user/profile.jpg" class="img-fluid img-thumbnail rounded-circle" alt="Cinque Terre">
+                <div v-if="form.image">
+                    <img class="img-fluid img-thumbnail rounded-circle" :src="apiURL+'images/users/'+form.image" :alt="form.name">
+                </div>
+                <div v-else>
+                    <img src="@/assets/images/user/profile.jpg" class="img-fluid img-thumbnail rounded-circle" alt="Cinque Terre">
+                </div>
             </div>
           </div>
           <div class="col offset-1">
@@ -69,7 +74,13 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import appConfig from "../../config/app"
 export default {
+    setup() {
+        return {
+            apiURL: appConfig.apiURL,
+        };
+    },
     data(){
         return{
             form : {
@@ -81,8 +92,11 @@ export default {
         }
     },
     created(){
-      this.form.name = this.user.name
-      this.form.email = this.user.email
+        if(this.user){
+            this.form.name = this.user.name
+            this.form.email = this.user.email
+            this.form.image = this.user.profile
+        }
     },
     computed: {
       ...mapGetters({
@@ -110,11 +124,12 @@ export default {
       },
       updateProfile(){
         const data = new FormData()
-        data.append('image', this.form.image)
+        data.append('profile', this.form.image)
         data.append('name', this.form.name)
         data.append('email', this.form.email)
-        this.$store.dispatch('auth/updateProfile', this.form).then((response) => {
+        this.$store.dispatch('auth/updateProfile', data).then((response) => {
             if(response.status === 200){
+                this.$store.dispatch('auth/getProfile')
                 this.$toast.success(response.data.message)
                 this.$router.push({name: 'Dashboard'})
             }else{

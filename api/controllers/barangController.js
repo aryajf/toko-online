@@ -382,13 +382,13 @@ function barangValidation(dataRequest, method){
         schema = {
             title: 'string|empty:false|min:3',
             total: 'number|integer|positive|min:0|empty:false',
-            description: 'string|empty:false|min:10'
+            description: 'string|empty:false|min:5'
         }
     }else{
         schema = {
             title: 'string|empty:false|min:3',
             total: 'number|integer|positive|min:0|empty:false',
-            description: 'string|empty:false|min:10',
+            description: 'string|empty:false|min:5',
             cover: 'string|empty:false'
         }
     }

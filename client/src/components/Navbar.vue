@@ -70,7 +70,7 @@
           </div>
           </div>
           <div class="dropdown-divider"></div>
-          <a href="#" @click="removeAlert" class="dropdown-item dropdown-footer">Hapus Histori</a>
+          <a href="#" @click="removeAlert" class="dropdown-item dropdown-footer bg-danger">Hapus Histori</a>
         </div>
       </li>
     </ul>
@@ -133,12 +133,20 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 #cart-header{
   height:250px;
   overflow-y:scroll
 }
 #result{
   z-index: 0;
+}
+
+.search-link{
+    color:#f76b61;
+    text-decoration: none;
+    &:hover{
+        color:#61d2ff;
+    }
 }
 </style>

@@ -47,8 +47,7 @@ export default createStore({
       try{
         let response = await axios.put('purchase', barang)
         barang.map((item)=>{
-          console.log(item)
-          commit('SET_TOTAL_ALERT', {title : `${item.title} dibeli oleh ${item.user_name}`})
+          commit('SET_TOTAL_ALERT', {title : `${item.user_name} telah membeli ${item.title}`})
         })
         return response
       }catch(e){
