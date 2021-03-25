@@ -51,26 +51,26 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="/" class="nav-link" exact>
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-home nav-icon"></i>
                   <p>Home</p>
                 </router-link>
               </li>
               <template v-if="authenticated">
                 <li class="nav-item">
                 <router-link to="/profile" class="nav-link" exact>
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-user nav-icon"></i>
                   <p>Profile</p>
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/dashboard" class="nav-link" exact>
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-book nav-icon"></i>
                   <p>Dashboard</p>
                 </router-link>
               </li>
               <li class="nav-item">
                 <a data-toggle="modal" data-target="#signoutModal" href="#" class="nav-link" exact>
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-sign-out-alt nav-icon"></i>
                   <p>Signout</p>
                 </a>
               </li>
@@ -78,13 +78,13 @@
               <template v-else>
               <li class="nav-item">
                 <router-link to="/login" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-sign-in-alt nav-icon"></i>
                   <p>Login</p>
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/register" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-users nav-icon"></i>
                   <p>Register</p>
                 </router-link>
               </li>

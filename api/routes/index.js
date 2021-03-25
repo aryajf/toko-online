@@ -23,7 +23,8 @@ router.route('/profile')
   .put(checkAuth, fileUpload.single('profile'), userController.update)
 
 // Barang
-router.get('/barang/search/:keyword', barangController.search);
+router.route('/barang/search/:keyword')
+  .get(barangController.search);
 router.route('/barang/user')
   .get(checkAuth, barangController.withUser)
 

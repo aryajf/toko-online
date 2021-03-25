@@ -41,7 +41,7 @@
         </div>
         <div class="row">
           <!-- /.col -->
-          <div class="offset-8 col-4">
+          <div class="offset-7 col-5">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
           </div>
           <!-- /.col -->

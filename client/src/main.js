@@ -18,8 +18,8 @@ import 'animate.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
 require('@/store/subscriber')
-// axios.defaults.baseURL = "https://penjualanapi.digitalinteraktif.com"
-axios.defaults.baseURL = "http://localhost:3000/"
+axios.defaults.baseURL = "https://penjualanapi.digitalinteraktif.com/"
+// axios.defaults.baseURL = "http://localhost:3000/"
 
 
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(()=>{

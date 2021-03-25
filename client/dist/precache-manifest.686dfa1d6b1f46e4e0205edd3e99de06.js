@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ea7e5df1d424ad7898ec",
-    "url": "/css/app.b68b3b7d.css"
+    "revision": "b0bbc31abd7b555f1eba",
+    "url": "/css/app.30297ca7.css"
   },
   {
-    "revision": "38969785a56b94606aa8",
-    "url": "/css/chunk-vendors.6e3de434.css"
+    "revision": "4104239a331dcf6201dd",
+    "url": "/css/chunk-vendors.cda239c1.css"
   },
   {
     "revision": "defc129761cd0670ef2a278ffa1c5305",
@@ -24,16 +24,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/shopping3.4f29e84f.jpg"
   },
   {
-    "revision": "607936c39b5e8a6e9bb3e6be84b0c4ec",
+    "revision": "4aa4fc4e86ad5e25c5f32a2bf9b865b8",
     "url": "/index.html"
   },
   {
-    "revision": "ea7e5df1d424ad7898ec",
-    "url": "/js/app.065e1db5.js"
+    "revision": "b0bbc31abd7b555f1eba",
+    "url": "/js/app.016675d1.js"
   },
   {
-    "revision": "38969785a56b94606aa8",
-    "url": "/js/chunk-vendors.630d4c2c.js"
+    "revision": "4104239a331dcf6201dd",
+    "url": "/js/chunk-vendors.77bab53b.js"
   },
   {
     "revision": "8eff00fb23e5046e8587fb699e79e093",

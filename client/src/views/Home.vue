@@ -19,10 +19,6 @@
     </div>
     <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
 
-    <template v-if="loading">
-        <loading></loading>
-    </template>
-    <template v-else>
     <div class="container-fluid">
     <div class="row mb-2">
       <div class="col">
@@ -54,7 +50,11 @@
     </div>
     </div>
     </div>
-    <h1 class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h1>
+    <h3 class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h3>
+    <template v-if="loading">
+        <loading></loading>
+    </template>
+    <template v-else>
     <hr>
     <div class="row">
       <div class="col-md-3" v-for="item in barang" :key="item.id">
@@ -97,8 +97,8 @@
         </div>
       </div>
     </div>
+    </template>
   </div>
-  </template>
   </div>
 </template>
 

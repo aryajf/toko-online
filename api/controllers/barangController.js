@@ -15,7 +15,7 @@ module.exports = {
                 as: 'user'
             }
         })
-        if(barang != null){
+        if(barang.length != 0){
             res.json({
                 barang: barang.map(barang => {
                     return{
@@ -50,7 +50,7 @@ module.exports = {
                 as: 'user'
             }
         })
-        if(barang != null){
+        if(barang.length != 0){
             res.json({
                 barang: {
                     id: barang.id,
@@ -79,7 +79,7 @@ module.exports = {
                 user_id : req.decoded.id
             }
         })
-        if(barang != null){
+        if(barang.length != 0){
             res.json({
                 barang: barang.map(barang => {
                     return{
@@ -173,7 +173,7 @@ module.exports = {
             }
 
             if(barangValidation(requestBarang, req.method) == null){
-                if(barang != null){
+                if(barang.length != 0){
                     try{
                         // Check File Exists
                         const existsPath = directory + barang.cover
@@ -220,7 +220,7 @@ module.exports = {
             }
 
             if(barangValidation(requestBarang, req.method) == null){
-                if(barang != null){
+                if(barang.length != 0){
                     try{
                         barang.update(requestBarang)
                         res.json({
@@ -256,7 +256,7 @@ module.exports = {
         const barang = await Barang.findOne({where : {id : req.params.id}})
         const filePath = path.join(__dirname, '../public/images/barang/'+barang.cover)
 
-        if(barang != null){
+        if(barang.length != 0){
             try{
                 if(fs.existsSync(filePath)){
                     fs.unlinkSync(filePath)
@@ -296,7 +296,7 @@ module.exports = {
             }
         })
 
-        if(barang != null){
+        if(barang.length != 0){
             res.json({
                 message : 'Pencarian barang berhasil',
                 barang: barang.map(barang => {

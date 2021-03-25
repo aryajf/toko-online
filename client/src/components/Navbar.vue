@@ -76,8 +76,7 @@
     </ul>
   </nav>
   <!-- /.navbar -->
-  
-  <div v-if="results.length">
+  <div v-if="results.length > 0">
   <div class="main-header navbar navbar-expand navbar-white navbar-light">
     <h4 class="ml-1">Semua pencarian :</h4>
   </div>
@@ -107,9 +106,6 @@ export default {
           keyword : null
       }
   },
-  created(){
-    this.search()
-  },
   watch: {
       keyword() {
           this.search()
@@ -124,7 +120,10 @@ export default {
   },
   methods: {
       search(){
-          this.$store.dispatch('barang/searchBarang', this.keyword)
+          this.$store.dispatch('barang/searchBarang', this.keyword).then(() => {
+            }).catch(err => {
+                console.log(err);
+            })
       },
       removeAlert(){
           this.$store.dispatch('clearTotalAlert')
