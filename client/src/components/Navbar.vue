@@ -77,8 +77,8 @@
   </nav>
   <!-- /.navbar -->
   <div v-if="results.length > 0">
-  <div class="main-header navbar navbar-expand navbar-white navbar-light">
-    <h4 class="ml-1">Semua pencarian :</h4>
+  <div id="result" class="main-header navbar navbar-expand navbar-white navbar-light">
+    <h4 class="ml-1">{{alert}}</h4>
   </div>
   <div id="result" v-for="result in results" :key="result.id" class="main-header navbar navbar-expand navbar-white navbar-light">
     <router-link class="list-group-item w-100 search-link" :to="'/'+result.id" :style="`--i: ${result.id}`">
@@ -103,7 +103,8 @@ export default {
   },
   data(){
       return {
-          keyword : null
+          keyword : null,
+          alert : null
       }
   },
   watch: {
@@ -120,10 +121,15 @@ export default {
   },
   methods: {
       search(){
-          this.$store.dispatch('barang/searchBarang', this.keyword).then(() => {
+        if(this.keyword != ''){
+          this.$store.dispatch('barang/searchBarang', this.keyword).then((response) => {
+            this.alert = response.data.message
             }).catch(err => {
-                console.log(err);
+              console.log(err);
             })
+        }else{
+          this.$store.dispatch('barang/clearResults')
+        }
       },
       removeAlert(){
           this.$store.dispatch('clearTotalAlert')

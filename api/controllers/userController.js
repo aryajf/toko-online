@@ -116,7 +116,7 @@ module.exports = {
                 id : req.params.id
             }
         })
-        if(user != null){
+        if(user.length != 0){
             res.json({
                 user : user,
                 message : 'User berhasil ditampilkan',
@@ -144,10 +144,9 @@ module.exports = {
                 email: req.body.email,
                 profile: fileName
             }
-            // console.log(requestUser);
 
             if(userValidation(requestUser, req.url) == null){
-                if(user != null){
+                if(user.length != 0){
                     try{
                         // Check File Exists
                         const existsPath = directory + user.profile
@@ -201,7 +200,7 @@ module.exports = {
             }
 
             if(userValidation(requestUser, req.url) == null){
-                if(user != null){
+                if(user.length != 0){
                     try{
                         user.update(requestUser)
                         res.json({
@@ -235,7 +234,7 @@ module.exports = {
     delete : async (req, res) => {
         const user = await User.findOne({where : {id : req.params.id}})
 
-        if(user != null){
+        if(user.length != 0){
             await User.destroy({
                 where : {
                     id : req.params.id

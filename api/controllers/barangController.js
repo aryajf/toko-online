@@ -314,16 +314,7 @@ module.exports = {
                 },
                 status: true
             })
-        }else{
-            res.json({
-                message : 'Barang tidak ditemukan',
-                request : {
-                    method: req.method,
-                    url: process.env.BASE_URL + '/barang/' + req.params.keyword
-                },
-                status: true
-            })
-        }
+        }else{res.status(404).json({message : 'Barang tidak ditemukan', status: false})}
     },
     purchase: async (req, res) => {
         const barang = await Barang.findAll()
@@ -356,7 +347,6 @@ module.exports = {
             req.body.map(async (result)=>{
                 if(item.id == result.id){
                     item.total -= parseInt(result.total)
-                    console.log(item.total);
                     await Barang.update({ total: item.total }, {
                         where: {
                             id: item.id

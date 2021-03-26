@@ -99,7 +99,6 @@ export default({
           }
         },
         async searchBarang({commit},keyword){
-          
           try{
             let response = await axios.get(`barang/search/${keyword}`)
             commit('SET_RESULTS', response.data.barang)
@@ -139,5 +138,8 @@ export default({
             return e.response
           }
         },
+        async clearResults({commit}){
+          commit('CLEAR_RESULTS')
+        },
     }
-})
+  })

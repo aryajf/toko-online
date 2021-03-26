@@ -13,6 +13,10 @@ const routes = [
   {
     path: '/',
     name: 'Home',
+    meta: {
+      auth: true,
+      title: 'Home'
+    },
     component: Home
   },
   {

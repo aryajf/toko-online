@@ -15,7 +15,7 @@
                 <Create></Create>
             </div>
             <div class="col-md-8">
-            <div class="col-4">
+            <div class="col-md-4">
               <div class="info-box">
                 <span class="info-box-icon bg-red"><i class="fas fa-boxes"></i></span>
 
