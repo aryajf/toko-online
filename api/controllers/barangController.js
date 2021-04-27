@@ -115,14 +115,14 @@ module.exports = {
         if(!fs.existsSync(directory)){
             fs.mkdirSync(directory);
         }
-
+        
         // Create Path Upload
         const getFileName = req.file.originalname.split('.')[0]
         const unique = new Date().toISOString().replace(/[\/\\:]/g, "_")
         const extension = req.file.mimetype.split("/").pop()
         const fileName = getFileName + '-' + unique + '.' + extension
         const pathResult = directory + '/' + fileName
-
+        
         req.body.stok = parseInt(req.body.stok)
         req.body.harga = parseInt(req.body.harga)
         
@@ -134,24 +134,24 @@ module.exports = {
             cover : fileName,
             user_id : req.decoded.id,
         }
-        // if(barangValidation(requestBarang, req.method) == null){
-        //     await Barang.create(requestBarang)
-        //     sharp(req.file.buffer).resize(640,480).jpeg({
-        //         quality: 80,
-        //         chromeSubsampling: '4:4:4'
-        //     }).toFile(pathResult)
+        if(barangValidation(requestBarang, req.method) == null){
+            await Barang.create(requestBarang)
+            sharp(req.file.buffer).resize(640,480).jpeg({
+                quality: 80,
+                chromeSubsampling: '4:4:4'
+            }).toFile(pathResult)
 
-        //     res.status(201).json({
-        //         message: 'Barang berhasil ditambah',
-        //         request: {
-        //             method: req.method,
-        //             url: process.env.BASE_URL + '/barang'
-        //         },
-        //         status: true
-        //     })
-        // }else{
-        //     res.status(400).send(barangValidation(requestBarang, req.method))
-        // }
+            res.status(201).json({
+                message: 'Barang berhasil ditambah',
+                request: {
+                    method: req.method,
+                    url: process.env.BASE_URL + '/barang'
+                },
+                status: true
+            })
+        }else{
+            res.status(400).send(barangValidation(requestBarang, req.method))
+        }
     },
     update : async (req, res) => {
         const barang = await Barang.findOne({where : {id : req.params.id}})

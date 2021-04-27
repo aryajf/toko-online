@@ -27,19 +27,9 @@ export default{
     }
   },
   actions: {
-    async register({state},credentials){
+    async signin({dispatch,state},credentials){
       try{
-        let response = await axios.post('register', credentials)
-        return response
-      }catch(e){
-        state.errors = e.response.data.errors
-        return e.response
-      }
-    },
-    async signin({dispatch, state},credentials){
-      try{
-        let response = await axios.post('login', credentials)
-        
+        let response = await axios.post('loginAdmin', credentials)
         dispatch('attempt', response.data.token)
         return response
       }catch(e){
@@ -47,7 +37,7 @@ export default{
         return e.response
       }
     },
-    async attempt({commit, dispatch, state},token){
+    async attempt({dispatch, commit, state},token){
       if(token){
         commit('SET_TOKEN', token)
       }
@@ -57,12 +47,9 @@ export default{
       }
       
       try{
-        
-        dispatch('getCart',null,{root:true})
-        dispatch('getUnpaid',null,{root:true})
+        let response = await axios.get('profile')
         dispatch('getPending',null,{root:true})
         dispatch('getAccepted',null,{root:true})
-        let response = await axios.get('profile')
         commit('SET_USER', response.data)
       }catch(e){
         commit('SET_TOKEN', null)
@@ -89,10 +76,6 @@ export default{
       }
     },
     async logout({commit}){
-      commit('CLEAR_CART',null,{root:true})
-      commit('CLEAR_UNPAID',null,{root:true})
-      commit('CLEAR_PENDING',null,{root:true})
-      commit('CLEAR_ACCEPTED',null,{root:true})
       commit('SET_TOKEN', null)
       commit('SET_USER', null)
     }

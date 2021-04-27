@@ -1,4 +1,6 @@
 api/node_modules
 api/public/images/barang/*
+api/public/images/buktiPembayaran/*
 api/public/images/users/*
+admin/node_modules
 client/node_modules

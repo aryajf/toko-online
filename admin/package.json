@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "admin",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,9 +8,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/vue-fontawesome": "^3.0.0-3",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@meforma/vue-toaster": "^1.2.2",
     "axios": "^0.21.1",
+    "bootstrap": "^5.0.0-beta3",
     "core-js": "^3.6.5",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
@@ -28,7 +29,6 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "admin-lte": "^3.1.0-rc",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",

@@ -20,6 +20,7 @@ router.get('/', function(req, res) {
 
 // AUTHENTICATION 
 router.post('/login', userController.login)
+router.post('/loginAdmin', adminController.login)
 router.post('/register', userController.register)
 
 // Profile

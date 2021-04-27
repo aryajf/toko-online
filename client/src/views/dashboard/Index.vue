@@ -4,7 +4,7 @@
         <loading></loading>
     </template>
     <template v-else>
-        <section class="content-header">
+    <section class="content-header">
       <h1 v-if="this.user" class="py-3">
         Selamat datang {{this.user.name}}
       </h1>
@@ -65,6 +65,53 @@
                 </div>
             </div>
             </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="alert alert-success">Berikut list barang yang dibelanjakan orang lain, jangan lupa cek bukti pembayarannya!</div>
+            <table class="table table-bordered table-">
+              <tr>
+                  <th>List Barang</th>
+                  <th>Total Harga</th>
+                  <th>Foto Bukti Pembayaran</th>
+                  <th>Tanggal barang diterima</th>
+              </tr>
+              <tr v-for="(items) in accepted" :key="items.kode">
+              <td>
+                  <table>
+                      <tr>
+                          <th>Foto Barang</th>
+                          <th>Nama Barang</th>
+                          <th>Stok</th>
+                          <th>Harga</th>
+                      </tr>
+                      <tr v-for="(item) in items.cart" :key="item.kode">
+                          <td>
+                              <div class="col-1 d-flex align-items-center"><img :src="apiURL+'images/barang/'+item.barang.cover" style="width:100px" :alt="item.barang.title"></div>
+                          </td>
+                          <td><router-link :to="'/'+item.barang.id">{{item.barang.title}}</router-link></td>
+                          <td>{{item.stok}}</td>
+                          <td>Rp.{{item.harga}},00</td>
+                      </tr>
+                  </table>
+              </td>
+              <td>
+                  Rp.{{items.total_harga}},00
+              </td>
+              <td>
+                  <template v-if="items.foto_bukti">
+                  <img class="card-img-top" :src="apiURL+'images/buktiPembayaran/'+items.foto_bukti" style="width:100px" alt="Foto bukti upload belum diupload">
+                  </template>
+                  <template v-else>
+                      <div class="alert alert-danger">Anda belum mengupload foto bukti pembayaran</div>
+                  </template>
+              </td>
+              <td>
+                  {{DateFormat(items.updatedAt)}}
+              </td>
+          </tr>
+      </table>
+          </div>
         </div>
     </div>
     </template>

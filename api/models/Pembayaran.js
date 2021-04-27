@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Pembayaran.hasMany(models.Cart, {
         as : 'cart',
         foreignKey : 'kode'
+      }),
+      Pembayaran.belongsTo(models.User, {
+        as: 'user',
+        foreignKey: 'user_id'
       })
     }
   };
