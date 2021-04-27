@@ -27,21 +27,21 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="fas fa-shopping-cart"></i>
-          <span class="badge badge-danger navbar-badge">{{totalBeli.length}}</span>
+          <span class="badge badge-danger navbar-badge">{{cart.length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div id="cart-header">
-          <div v-for="item in totalBeli" :key="item.id">
-            <router-link :to="'/'+item.id" class="dropdown-item">
+          <div v-for="item in cart" :key="item.id">
+            <router-link :to="'/'+item.barang_id" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img :src="apiURL+'images/barang/'+item.cover" :alt="item.title" class="img-size-50 mr-3 img-circle">
+                <img :src="apiURL+'images/barang/'+item.barang_cover" :alt="item.barang_title" class="img-size-50 mr-3 img-circle">
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
-                    {{item.title}}
-                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                    {{item.barang_title}}
                   </h3>
-                  <p class="text-sm text-muted"><i class="fas fa-box"></i> {{item.total}} <i class="fas fa-pencil-alt"></i> {{item.user_name}}</p>
+                  <p class="text-sm text-muted"><i class="fas fa-boxes"></i> {{item.barang_stok}} <i class="fas fa-pencil-alt"></i> {{item.barang_pemilik}}</p>
+                  <p class="text-sm text-muted"><i class="fas fa-money-bill"></i> Rp.{{item.barang_harga}},00</p>
                 </div>
               </div>
               <!-- Message End -->
@@ -51,6 +51,20 @@
           </div>
           <div class="dropdown-divider"></div>
           <router-link to="/cart" class="dropdown-item dropdown-footer">Lihat Semua Belanja mu</router-link>
+        </div>
+      </li>
+      <!-- Reports Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-file-alt"></i>
+          <span class="badge badge-danger navbar-badge">{{unpaid.length + pending.length + accepted.length}}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div id="cart-header">
+          <router-link to="/unpaid" class="dropdown-item">Menunggu Pembayaran <span class="badge badge-danger">{{unpaid.length}}</span></router-link>
+          <router-link to="/pending" class="dropdown-item">Menunggu Konfirmasi Admin <span class="badge badge-danger">{{pending.length}}</span></router-link>
+          <router-link to="/accepted" class="dropdown-item">Pembayaran yang Berhasil <span class="badge badge-danger">{{accepted.length}}</span></router-link>
+          </div>
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
@@ -78,14 +92,15 @@
   <!-- /.navbar -->
   <div v-if="results.length > 0">
   <div id="result" class="main-header navbar navbar-expand navbar-white navbar-light">
-    <h4 class="ml-1">{{alert}}</h4>
   </div>
   <div id="result" v-for="result in results" :key="result.id" class="main-header navbar navbar-expand navbar-white navbar-light">
     <router-link class="list-group-item w-100 search-link" :to="'/'+result.id" :style="`--i: ${result.id}`">
         <div class="row">
-          <div class="col-8">{{result.title}}</div>
-          <div class="col"><i class="fas fa-box"></i> {{result.total}}</div>
-          <div class="col"><i class="fas fa-pencil-alt"></i> {{result.user_name}}</div>
+          <div class="col-1 d-flex align-items-center"><img :src="apiURL+'images/barang/'+result.cover" class="img-thumbnail" :alt="result.title"></div>
+          <div class="col d-flex align-items-center">{{result.title}}</div>
+          <div class="col d-flex align-items-center"><i class="fas fa-box"></i> {{result.stok}}</div>
+          <div class="col d-flex align-items-center"><i class="fas fa-money-bill"></i> Rp.{{result.harga}},00</div>
+          <div class="col d-flex align-items-center"><i class="fas fa-pencil-alt"></i> {{result.user_name}}</div>
         </div>
     </router-link>
   </div>
@@ -115,7 +130,10 @@ export default {
   computed: {
     ...mapGetters({
         totalAlert : 'totalAlert',
-        totalBeli : 'totalBeli',
+        cart : 'cart',
+        unpaid : 'unpaid',
+        pending : 'pending',
+        accepted : 'accepted',
         results : 'barang/results',
     })
   },
@@ -135,7 +153,7 @@ export default {
           this.$store.dispatch('clearTotalAlert')
           this.$toast.success('Notifikasi berhasil dihapus')
       }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -148,10 +166,10 @@ export default {
 }
 
 .search-link{
-    color:#f76b61;
+    color:#555;
     text-decoration: none;
     &:hover{
-        color:#61d2ff;
+        color:#212529;
     }
 }
 </style>

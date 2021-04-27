@@ -5,38 +5,47 @@
       <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Kamu harus login terlebih dahulu sebelum memesan</h5>
+                <h5 class="modal-title" id="loginModalLabel">Kamu harus login terlebih dahulu sebelum memesan <i class="far fa-smile-wink"></i></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <router-link to="/login" class="btn btn-info" data-dismiss="modal">Login</router-link>
+                <router-link to="/login" class="btn btn-info" data-dismiss="modal"><i class="fas fa-sign-in-alt"></i> Login</router-link>
             </div>
           </div>
       </div>
     </div>
-    <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
+    <cart-modal v-if="barang_id" :barang_id="barang_id"></cart-modal>
 
     <div class="container-fluid">
+    <div class="row py-5">
+      <div class="col align-items-center d-flex justify-content-center">
+        <h1 id="home-title" class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h1>
+      </div>
+      <div class="col">
+        <img id="home-img" src="@/assets/images/dashboard.png" alt="">
+      </div>
+    </div>
     <div class="row mb-2">
       <div class="col">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img class="d-block w-100" src="@/assets/images/carousel/shopping1.jpg" alt="First slide">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block w-100" src="@/assets/images/carousel/shopping2.jpg" alt="Second slide">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block w-100" src="@/assets/images/carousel/shopping3.jpg" alt="Third slide">
+        <div v-for="(item, index) in barang" :class="index == 0 ? 'active' : '' " :key="item.id" class="carousel-item">
+          <img class="d-block w-100" :src="apiURL+'images/barang/'+item.cover" :alt="item.title">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>{{item.title}}</h5>
+            <p>
+              <template v-if="authenticated">
+                <template v-if="user.id != item.user_id">
+                  <a data-toggle="modal" data-target="#cartModal" @click.prevent="getCartModal(item.id)" class="btn btn-success"><i class="fas fa-cart-arrow-down"></i> Pesan!</a>
+                </template>
+              </template>
+              <template v-else>
+                <a data-toggle="modal" data-target="#loginModal" href="#" class="btn btn-success"><i class="fas fa-cart-arrow-down"></i> Pesan!</a>
+              </template>
+            </p>
+          </div>
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -50,32 +59,27 @@
     </div>
     </div>
     </div>
-    <h3 class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h3>
     <template v-if="loading">
         <loading></loading>
     </template>
     <template v-else>
-    <hr>
-    <div class="row">
+    <div class="row py-5">
       <div class="col-md-3" v-for="item in barang" :key="item.id">
         <div class="card">
           <img class="card-img-top" :src="apiURL+'images/barang/'+item.cover" :alt="item.title">
           <div class="card-body">
             <router-link :to="'/'+item.id" class="card-title"><h5>{{item.title}}</h5></router-link>
             <p class="card-text">{{item.description}}</p>
-            <div class="d-flex justify-content-between">
+            <div class="container-fluid">
               <small>
                 <div class="row mb-2">
-                  <div class="col">
-                <i class="far fa-user"></i> {{item.user_name}} 
-                </div>
-                <div class="col">
-                <i class="fas fa-box"></i> {{item.total}}
-                </div>
+                  <div class="col"><i class="fas fa-user"></i> {{item.user_name}} </div>
+                  <div class="col"><i class="fas fa-boxes"></i> {{item.stok}}</div>
+                  <div class="col-6"><i class="fas fa-money-bill"></i> Rp.{{item.harga}},00</div>
                 </div>
                 <div class="row">
                   <div class="col">
-                  <i class="fas fa-pencil-alt"></i> {{item.createdAt}}
+                  <i class="fas fa-pencil-alt"></i> {{DateFormat(item.createdAt)}}
                   </div>
                 </div>
               </small>
@@ -85,11 +89,11 @@
               <div class="col">
               <template v-if="authenticated">
                 <template v-if="user.id != item.user_id">
-                  <a data-toggle="modal" data-target="#checkoutModal" @click.prevent="getCheckoutModal(item.id)" class="w-100 btn btn-success">Pesan!</a>
+                  <a data-toggle="modal" data-target="#cartModal" @click.prevent="getCartModal(item.id)" class="w-100 btn btn-success"><i class="fas fa-cart-arrow-down"></i> Pesan!</a>
                 </template>
               </template>
               <template v-else>
-                <a data-toggle="modal" data-target="#loginModal" href="#" class="w-100 btn btn-success">Pesan!</a>
+                <a data-toggle="modal" data-target="#loginModal" href="#" class="w-100 btn btn-success"><i class="fas fa-cart-arrow-down"></i> Pesan!</a>
               </template>
               </div>
             </div>
@@ -103,10 +107,12 @@
 </template>
 
 <script>
-import checkoutModal from '@/components/modal/checkoutModal.vue'
+import cartModal from '@/components/modal/cartModal.vue'
 import appConfig from "../config/app"
 import Loading from '@/components/Loading'
 import {mapGetters} from 'vuex'
+import moment from 'moment'
+
 export default {
   name: 'Home',
   setup() {
@@ -120,7 +126,7 @@ export default {
       }
     },
     components:{
-     checkoutModal,Loading
+     cartModal,Loading
    },
   created(){
     this.getSemuaBarang();
@@ -135,7 +141,7 @@ export default {
     })
   },
     methods:{
-        getCheckoutModal(id){
+        getCartModal(id){
             this.barang_id = id;
         },
         getSemuaBarang(){
@@ -143,13 +149,19 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+        },
+        DateFormat(item) {
+          return moment(item).locale('id').format('LLL')
         }
     }
 }
 </script>
 <style scoped>
-.carousel-inner{
-  width:100%;
-  max-height: 500px !important;
+.carousel-inner {
+    width: 100%;
+    max-height: 600px !important;
+}
+.carousel-caption{
+  margin-bottom: 60vh;
 }
 </style>

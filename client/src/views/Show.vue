@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <checkout-modal v-if="barang_id" :barang_id="barang_id"></checkout-modal>
+    <cart-modal v-if="barang_id" :barang_id="barang_id"></cart-modal>
     <template v-if="loading">
         <loading></loading>
     </template>
@@ -78,7 +78,7 @@
             </div>
             <div class="row">
                 <div class="col-12 pb-3">
-                    <div data-toggle="modal" @click.prevent="getCheckoutModal(barang.id)" data-target="#checkoutModal" class="w-100 p-3 btn btn-success">Pesan !</div>
+                    <div data-toggle="modal" @click.prevent="getCartModal(barang.id)" data-target="#cartModal" class="w-100 p-3 btn btn-success">Pesan !</div>
                 </div>
             </div>
         </div>
@@ -126,10 +126,18 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input min="1" type="number" v-model="form.total" class="form-control" placeholder="Jumlah Barang" required>
+                        <input min="1" type="number" v-model="form.stok" class="form-control" placeholder="Jumlah Barang" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-box"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input min="1" type="number" v-model="form.harga" class="form-control" placeholder="Harga Barang" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-money-bill"></span>
                             </div>
                         </div>
                     </div>
@@ -169,7 +177,7 @@
 </template>
 
 <script>
-import checkoutModal from '@/components/modal/checkoutModal.vue'
+import cartModal from '@/components/modal/cartModal.vue'
 import $ from 'jquery'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
@@ -177,13 +185,13 @@ import Loading from '@/components/Loading'
 export default {
   name: 'Home',
   setup() {
-        return {
-            apiURL: appConfig.apiURL,
-        };
-    },
-    components:{
-     checkoutModal,Loading
-   },
+    return {
+        apiURL: appConfig.apiURL,
+    };
+  },
+  components:{
+    cartModal,Loading
+  },
   created(){
     this.getBarang();
   },
@@ -192,7 +200,8 @@ export default {
             form : {
                 title: '',
                 description : '',
-                total : 1,
+                stok : 1,
+                harga : 1,
                 image : null
             },
             barang_id : null,
@@ -213,7 +222,7 @@ export default {
         }
     },
     methods:{
-        getCheckoutModal(id){
+        getCartModal(id){
             this.barang_id = id;
         },
         onImageChange(e) {
@@ -238,7 +247,8 @@ export default {
             const data = new FormData()
             data.append('cover', this.form.image)
             data.append('title', this.form.title)
-            data.append('total', this.form.total)
+            data.append('stok', this.form.stok)
+            data.append('harga', this.form.harga)
             data.append('description', this.form.description)
             let credentials = {form: data, id : this.$route.params.id}
             this.$store.dispatch('barang/updateBarang', credentials).then((response) => {
@@ -255,7 +265,8 @@ export default {
                 let barang = response.data.barang
                 this.form.title = barang.title
                 this.form.description = barang.description
-                this.form.total = barang.total
+                this.form.stok = barang.stok
+                this.form.harga = barang.harga
                 this.form.image = barang.cover
             }).catch(err => {
                 console.log(err)

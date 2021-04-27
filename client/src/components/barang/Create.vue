@@ -28,10 +28,18 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                <input min="1" type="number" v-model="form.total" class="form-control" placeholder="Jumlah Barang" required>
+                <input min="1" type="number" v-model="form.stok" class="form-control" placeholder="Jumlah Barang" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                     <span class="fas fa-box"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input min="1" type="number" v-model="form.harga" class="form-control" placeholder="Harga Barang" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                    <span class="fas fa-money-bill"></span>
                     </div>
                 </div>
             </div>
@@ -63,7 +71,8 @@ export default {
             form : {
                 title: '',
                 description : '',
-                total : 1,
+                stok : null,
+                harga : null,
                 image : null
             },
             imagePreview: null
@@ -92,7 +101,8 @@ export default {
             const data = new FormData()
             data.append('cover', this.form.image)
             data.append('title', this.form.title)
-            data.append('total', this.form.total)
+            data.append('stok', this.form.stok)
+            data.append('harga', this.form.harga)
             data.append('description', this.form.description)
             this.$store.dispatch('barang/createBarang', data).then((response) => {
                 if(response.status === 201){

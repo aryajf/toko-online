@@ -54,26 +54,25 @@ module.exports = {
         const userRequest = {
             name: req.body.name,
             email: req.body.email,
+            alamat: req.body.alamat,
+            phone: req.body.phone,
             password: req.body.password,
             confirmPassword: req.body.confirmPassword
         }
-
+        
         if(userValidation(userRequest, req.url) == null){
-        if(user){
-            res.status(400).json({email:req.body.email, message: 'Akun sudah pernah terdaftar', status:false})
-        }else{
-            try{
+            if(user){
+                res.status(400).json({email:req.body.email, message: 'Akun sudah pernah terdaftar', status:false})
+            }else{
+                try{
                 const newUser = await User.create({
                     name : userRequest.name,
                     email : userRequest.email,
+                    alamat : userRequest.alamat,
+                    phone : userRequest.phone,
                     password : hashPassword(userRequest.password),
                 })
                 res.status(201).json({
-                    data: {
-                        id: newUser.id,
-                        name: newUser.name,
-                        email: newUser.email
-                    },
                     message: 'Berhasil Register',
                     request: {
                         method: req.method,
@@ -96,11 +95,6 @@ module.exports = {
     index: async (req, res) => {
         const user = await User.findAll()
         res.json({
-            // user: user.map(user => {
-            //     return{
-            //         name: user.name,
-            //     }
-            // }),
             user : user,
             message: 'User berhasil ditampilkan',
             request: {
@@ -116,7 +110,7 @@ module.exports = {
                 id : req.params.id
             }
         })
-        if(user.length != 0){
+        if(user != null){
             res.json({
                 user : user,
                 message : 'User berhasil ditampilkan',
@@ -141,16 +135,18 @@ module.exports = {
 
             let requestUser = {
                 name: req.body.name,
+                phone: req.body.phone,
                 email: req.body.email,
-                profile: fileName
+                alamat: req.body.alamat,
+                avatar: fileName
             }
 
             if(userValidation(requestUser, req.url) == null){
                 if(user.length != 0){
                     try{
                         // Check File Exists
-                        const existsPath = directory + user.profile
-                        if(user.profile !=null){
+                        const existsPath = directory + user.avatar
+                        if(user.avatar !=null){
                             if(fs.existsSync(existsPath)){
                                 fs.unlinkSync(existsPath)
                             }
@@ -167,12 +163,6 @@ module.exports = {
                             chromeSubsampling: '4:4:4'
                         }).toFile(pathResult)
                         res.json({
-                            data: {
-                                id: user.id,
-                                name: user.name,
-                                email: user.email,
-                                profile: user.profile,
-                            },
                             message: 'Profil berhasil diperbarui',
                             request: {
                                 method: req.method,
@@ -196,7 +186,9 @@ module.exports = {
         }else{
             let requestUser = {
                 name: req.body.name,
-                email: req.body.email
+                phone: req.body.phone,
+                email: req.body.email,
+                alamat: req.body.alamat,
             }
 
             if(userValidation(requestUser, req.url) == null){
@@ -204,11 +196,6 @@ module.exports = {
                     try{
                         user.update(requestUser)
                         res.json({
-                            data: {
-                                id: user.id,
-                                name: user.name,
-                                email: user.email,
-                            },
                             message: 'Profil berhasil diperbarui',
                             request: {
                                 method: req.method,
@@ -259,6 +246,8 @@ function userValidation(dataRequest, url){
         schema = {
             name: 'string|empty:false|required',
             email: 'email|empty:false',
+            alamat: 'string|empty:false|required',
+            phone: 'string|empty:false|required',
             password: 'string|empty:false|min:3',
             confirmPassword: { type: "equal", field: "password" }
         }

@@ -18,15 +18,15 @@
           </div>
         </div>
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-light-black">
+    <aside class="main-sidebar sidebar-light-black" style="position:fixed;">
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div v-if="this.user" class="image">
-          <div v-if="this.user.profile != null">
-            <img class="img-circle elevation-2" :src="apiURL+'images/users/'+this.user.profile" :alt="this.user.name">
+          <div v-if="this.user.avatar != null">
+            <img class="img-circle elevation-2" :src="apiURL+'images/users/'+this.user.avatar" :alt="this.user.name">
           </div>
           <div v-else>
             <img class="img-circle elevation-2" src="@/assets/images/user/profile.jpg" alt="User">

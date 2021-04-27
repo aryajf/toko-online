@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="py-3">
         <section class="content-header">
         <h1 v-if="this.user" class="pb-3">
           Selamat datang {{this.user.name}}
@@ -34,6 +34,22 @@
                 <div class="input-group-append">
                     <div class="input-group-text">
                     <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="number" v-model="form.phone" class="form-control" placeholder="Nomor Telepon">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                    <span class="fas fa-phone"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <textarea class="form-control" v-model="form.alamat" placeholder="Alamat Rumah" required></textarea>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                    <span class="fas fa-map-marked-alt"></span>
                     </div>
                 </div>
             </div>
@@ -86,6 +102,8 @@ export default {
             form : {
                 name: '',
                 email : '',
+                alamat : '',
+                phone : '',
                 image : null
             },
             imagePreview: null
@@ -95,7 +113,9 @@ export default {
         if(this.user){
             this.form.name = this.user.name
             this.form.email = this.user.email
-            this.form.image = this.user.profile
+            this.form.alamat = this.user.alamat
+            this.form.phone = this.user.phone
+            this.form.image = this.user.avatar
         }
     },
     computed: {
@@ -124,8 +144,10 @@ export default {
       },
       updateProfile(){
         const data = new FormData()
-        data.append('profile', this.form.image)
+        data.append('avatar', this.form.image)
         data.append('name', this.form.name)
+        data.append('alamat', this.form.alamat)
+        data.append('phone', this.form.phone)
         data.append('email', this.form.email)
         this.$store.dispatch('auth/updateProfile', data).then((response) => {
             if(response.status === 200){

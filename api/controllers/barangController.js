@@ -22,7 +22,8 @@ module.exports = {
                         id: barang.id,
                         title: barang.title,
                         description: barang.description,
-                        total: barang.total,
+                        stok: barang.stok,
+                        harga: barang.harga,
                         cover: barang.cover,
                         createdAt: dateFormat(barang.createdAt),
                         updatedAt: dateFormat(barang.updatedAt),
@@ -50,13 +51,14 @@ module.exports = {
                 as: 'user'
             }
         })
-        if(barang.length != 0){
+        if(barang != null){
             res.json({
                 barang: {
                     id: barang.id,
                     title: barang.title,
                     description: barang.description,
-                    total: barang.total,
+                    stok: barang.stok,
+                    harga: barang.harga,
                     cover: barang.cover,
                     createdAt: dateFormat(barang.createdAt),
                     updatedAt: dateFormat(barang.updatedAt),
@@ -86,7 +88,8 @@ module.exports = {
                     id: barang.id,
                     title: barang.title,
                     description: barang.description,
-                    total: barang.total,
+                    stok: barang.stok,
+                    harga: barang.harga,
                     cover: barang.cover,
                     createdAt: dateFormat(barang.createdAt),
                     updatedAt: dateFormat(barang.updatedAt),
@@ -120,42 +123,40 @@ module.exports = {
         const fileName = getFileName + '-' + unique + '.' + extension
         const pathResult = directory + '/' + fileName
 
-        req.body.total = parseInt(req.body.total)
+        req.body.stok = parseInt(req.body.stok)
+        req.body.harga = parseInt(req.body.harga)
         
         let requestBarang = {
             title : req.body.title,
             description : req.body.description,
-            total : req.body.total,
+            stok : req.body.stok,
+            harga : req.body.harga,
             cover : fileName,
             user_id : req.decoded.id,
         }
-        
-        if(barangValidation(requestBarang, req.method) == null){
-            let barang =  await Barang.create(requestBarang)
-            sharp(req.file.buffer).resize(640,480).jpeg({
-                quality: 80,
-                chromeSubsampling: '4:4:4'
-            }).toFile(pathResult)
+        // if(barangValidation(requestBarang, req.method) == null){
+        //     await Barang.create(requestBarang)
+        //     sharp(req.file.buffer).resize(640,480).jpeg({
+        //         quality: 80,
+        //         chromeSubsampling: '4:4:4'
+        //     }).toFile(pathResult)
 
-            res.status(201).json({
-                data: {
-                    id: barang.id,
-                    title: barang.title,
-                },
-                message: 'Barang berhasil ditambah',
-                request: {
-                    method: req.method,
-                    url: process.env.BASE_URL + '/barang'
-                },
-                status: true
-            })
-        }else{
-            res.status(400).send(barangValidation(requestBarang, req.method))
-        }
+        //     res.status(201).json({
+        //         message: 'Barang berhasil ditambah',
+        //         request: {
+        //             method: req.method,
+        //             url: process.env.BASE_URL + '/barang'
+        //         },
+        //         status: true
+        //     })
+        // }else{
+        //     res.status(400).send(barangValidation(requestBarang, req.method))
+        // }
     },
     update : async (req, res) => {
         const barang = await Barang.findOne({where : {id : req.params.id}})
-        req.body.total = parseInt(req.body.total)
+        req.body.stok = parseInt(req.body.stok)
+        req.body.harga = parseInt(req.body.harga)
 
         if(req.file){
             // Create Path Upload
@@ -168,7 +169,8 @@ module.exports = {
             let requestBarang = {
                 title: req.body.title,
                 description: req.body.description,
-                total: req.body.total,
+                stok: req.body.stok,
+                harga: req.body.harga,
                 cover: fileName
             }
 
@@ -186,12 +188,6 @@ module.exports = {
                             chromeSubsampling: '4:4:4'
                         }).toFile(pathResult)
                         res.json({
-                            data: {
-                                id: barang.id,
-                                title: barang.title,
-                                total: barang.total,
-                                description: barang.description,
-                            },
                             message: 'barang berhasil diubah',
                             request: {
                                 method: req.method,
@@ -215,7 +211,8 @@ module.exports = {
         }else{
             let requestBarang = {
                 title: req.body.title,
-                total: req.body.total,
+                stok: req.body.stok,
+                harga: req.body.harga,
                 description: req.body.description
             }
 
@@ -224,12 +221,6 @@ module.exports = {
                     try{
                         barang.update(requestBarang)
                         res.json({
-                            data: {
-                                id: barang.id,
-                                title: barang.title,
-                                total: barang.total,
-                                description: barang.description,
-                            },
                             message: 'Barang berhasil diubah',
                             request: {
                                 method: req.method,
@@ -303,7 +294,8 @@ module.exports = {
                     return{
                         id: barang.id,
                         title: barang.title,
-                        total: barang.total,
+                        stok: barang.stok,
+                        harga: barang.harga,
                         cover: barang.cover,
                         user_name: barang.user.name,
                     }
@@ -315,55 +307,7 @@ module.exports = {
                 status: true
             })
         }else{res.status(404).json({message : 'Barang tidak ditemukan', status: false})}
-    },
-    purchase: async (req, res) => {
-        const barang = await Barang.findAll()
-        
-        // barang.map(item=>{
-        //     req.body.map(async (result)=>{
-        //         if(item.id == result.id){
-        //             if(parseInt(result.total) > item.id){
-        //                 res.status(400).json({
-        //                     message : `Stok Barang ${result.title} Habis`,
-        //                     request : {
-        //                         method: req.method,
-        //                         url: process.env.BASE_URL + '/barang/purchase'
-        //                     },
-        //                     status: true
-        //                 })
-        //             }else{
-        //                 item.total -= parseInt(result.total)
-        //                 console.log(item.total);
-        //                 await Barang.update({ total: item.total }, {
-        //                     where: {
-        //                         id: item.id
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //     })
-        // })
-        barang.map(item=>{
-            req.body.map(async (result)=>{
-                if(item.id == result.id){
-                    item.total -= parseInt(result.total)
-                    await Barang.update({ total: item.total }, {
-                        where: {
-                            id: item.id
-                        }
-                    })
-                }
-            })
-        })
-        res.json({
-            message : 'Barang Berhasil Dibeli, Terima Kasih sudah belanja :)',
-            request : {
-                method: req.method,
-                url: process.env.BASE_URL + '/barang/purchase'
-            },
-            status: true
-        })
-    },
+    }
 }
 
 function barangValidation(dataRequest, method){
@@ -371,13 +315,15 @@ function barangValidation(dataRequest, method){
     if(method == 'PUT'){
         schema = {
             title: 'string|empty:false|min:3',
-            total: 'number|integer|positive|min:0|empty:false',
+            stok: 'number|integer|positive|min:0|empty:false',
+            harga: 'number|integer|positive|min:0|empty:false',
             description: 'string|empty:false|min:5'
         }
     }else{
         schema = {
             title: 'string|empty:false|min:3',
-            total: 'number|integer|positive|min:0|empty:false',
+            stok: 'number|integer|positive|min:0|empty:false',
+            harga: 'number|integer|positive|min:0|empty:false',
             description: 'string|empty:false|min:5',
             cover: 'string|empty:false'
         }

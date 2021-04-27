@@ -1,5 +1,7 @@
 <template>
 <div class="d-flex justify-content-center">
+  <div class="row py-5">
+    <div class="col">
     <div class="login-box pt-5">
   <!-- /.login-logo -->
   <div class="card">
@@ -34,6 +36,11 @@
     </div>
     <!-- /.login-card-body -->
   </div>
+</div>
+</div>
+<div class="col">
+  <img src="@/assets/images/login.png" alt="">
+</div>
 </div>
 </div>
 </template>

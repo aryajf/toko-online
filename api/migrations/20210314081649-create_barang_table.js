@@ -19,11 +19,15 @@ module.exports = {
         allowNull : false
       },
       description: {
-        type : Sequelize.STRING,
+        type : Sequelize.TEXT,
         allowNull : false
       },
-      total: {
+      stok: {
         type : Sequelize.INTEGER,
+        allowNull : false
+      },
+      harga: {
+        type : Sequelize.DECIMAL,
         allowNull : false
       },
       cover: {
@@ -34,11 +38,11 @@ module.exports = {
         type : Sequelize.INTEGER,
         allowNull : false,
       },
-      created_at: {
+      createdAt: {
         type : Sequelize.DATE,
         allowNull : false
       },
-      updated_at: {
+      updatedAt: {
         type : Sequelize.DATE,
         allowNull : false
       },
@@ -52,5 +56,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+     await queryInterface.dropTable('Barang');
   }
 };

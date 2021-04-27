@@ -1,10 +1,10 @@
 <template>
     <!-- Modal -->
-    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal fade" id="pendingModal" tabindex="-1" role="dialog" aria-labelledby="pendingModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="checkoutModalLabel">Upload Bukti Pembayaran!</h5>
+            <h5 class="modal-title" id="pendingModalLabel">Upload Bukti Pembayaran!</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -12,9 +12,12 @@
         <div class="modal-body">
             <form @submit.prevent="confirmUnpaid">
                 <div class="input-group mb-3">
-                    <div class="form-group" v-if="imagePreview">
+                    <template class="form-group" v-if="imagePreview">
                         <img :src="imagePreview" class="img-fluid">
-                    </div>
+                    </template>
+                    <template v-else>
+                        <img :src="apiURL+'images/buktiPembayaran/'+img" class="img-fluid" alt="Foto Bukti Pembayaran">
+                    </template>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -37,9 +40,15 @@
 </template>
 
 <script>
+import appConfig from "../../config/app"
 import $ from 'jquery'
 export default {
-    props: ['kode'],
+    props: ['kode','img'],
+    setup() {
+        return {
+            apiURL: appConfig.apiURL,
+        };
+    },
     data(){
         return {
             form : {
@@ -76,7 +85,7 @@ export default {
                     this.$toast.success(response.data.message)
                     this.form.foto_bukti = null
                     this.imagePreview = null
-                    $('#checkoutModal').modal('hide')
+                    $('#pendingModal').modal('hide')
                     this.$router.push({ name: 'Pending'})
                 }else{
                     this.$toast.error(response.data.message)

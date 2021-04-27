@@ -26,19 +26,27 @@ module.exports = {
           type : Sequelize.STRING,
           allowNull : false
       },
-      profile: {
+      avatar: {
           type : Sequelize.STRING,
           allowNull : true
       },
-      role_id: {
-          type : Sequelize.INTEGER,
-          allowNull : true
+      alamat: {
+          type : Sequelize.TEXT,
+          allowNull : false
       },
-      created_at: {
+      phone: {
+          type : Sequelize.STRING,
+          allowNull : false
+      },
+      role: {
+        type: Sequelize.ENUM('User', 'Admin'),
+        allowNull: false,
+      },
+      createdAt: {
           type: Sequelize.DATE,
           allowNull : true
       },
-      updated_at: {
+      updatedAt: {
           type: Sequelize.DATE,
           allowNull : true
       }
@@ -52,5 +60,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+     await queryInterface.dropTable('Users');
   }
 };

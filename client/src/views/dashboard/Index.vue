@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="py-3">
       <template v-if="loading">
         <loading></loading>
     </template>
@@ -40,21 +40,23 @@
                     <div class="card-body" style="display: block;">
                       <template v-if="barang.length == 0">
                         <div class="alert alert-danger">Anda belum menambah barang apapun</div>
-                        </template>
+                      </template>
                       <template v-else>
                         <table class="table">
                           <thead class="thead-dark">
                             <tr>
                               <th scope="col">Nama</th>
-                              <th scope="col">Total Barang</th>
+                              <th scope="col">Stok</th>
+                              <th scope="col">Harga</th>
                               <th scope="col">Dibuat pada</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr v-for="item in barang" :key="item.id">
                               <td><router-link :to="'/'+item.id">{{item.title}}</router-link></td>
-                              <td>{{item.total}}</td>
-                              <td>{{item.createdAt}}</td>
+                              <td><i class="fas fa-box"></i> {{item.stok}}</td>
+                              <td><i class="fas fa-money-bill"></i> Rp.{{item.harga}},00</td>
+                              <td><i class="fas fa-pencil-alt"></i> {{DateFormat(item.createdAt)}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -73,6 +75,7 @@
 import {mapGetters} from 'vuex'
 import Create from '@/components/barang/Create.vue'
 import Loading from '@/components/Loading'
+import moment from 'moment'
 
 export default {
     components:{
@@ -95,6 +98,9 @@ export default {
         catch(err => {
               console.log(err);
         })
+      },
+      DateFormat(item) {
+        return moment(item).locale('id').format('LLL')
       }
     }
 }

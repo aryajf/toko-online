@@ -17,10 +17,6 @@
         </div>
     </div>
     </div>
-    <template v-if="loading">
-        <loading></loading>
-    </template>
-    <template v-else>
         <div class="container-fluid">
             <div class="row pt-4">
             <div class="col-12">
@@ -33,27 +29,34 @@
                         </div>
                     </div>
                     <div class="card-body" style="display: block;">
-                        <template v-if="totalBeli.length == 0">
+                        <template v-if="cart.length == 0">
                             <div class="alert alert-danger">Anda belum memesan barang apapun, <router-link to="/">pesan dulu gihh</router-link></div>
                         </template>
                         <template v-else>
                             <div>
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th>Barang</th>
-                                        <th>Penjual</th>
-                                        <th>Total</th>
-                                        <th>Hapus</th>
+                                        <th>Foto Barang</th>
+                                        <th><li class="fas fa-box"></li> Nama Barang</th>
+                                        <th><li class="fas fa-users"></li> Penjual</th>
+                                        <th><li class="fas fa-boxes"></li> Stok</th>
+                                        <th><li class="fas fa-money-bill"></li> Harga</th>
                                     </tr>
-                                    <tr v-for="(item) in totalBeli" :key="item.id">
+                                    <tr v-for="(item) in cart" :key="item.id">
                                     <td>
-                                        <router-link :to="'/'+item.id">{{item.title}}</router-link>
+                                        <div class="col-1 d-flex align-items-center"><img :src="apiURL+'images/barang/'+item.barang_cover" style="width:100px" :alt="item.barang_title"></div>
                                     </td>
                                     <td>
-                                        <li class="fas fa-user"></li> {{item.user_name}}
+                                        <router-link :to="'/'+item.barang_id">{{item.barang_title}}</router-link>
                                     </td>
                                     <td>
-                                        <li class="fas fa-box"></li> {{item.total}}
+                                        {{item.barang_pemilik}}
+                                    </td>
+                                    <td>
+                                        {{item.barang_stok}}
+                                    </td>
+                                    <td>
+                                        Rp.{{item.barang_harga}},00
                                     </td>
                                     <td>
                                         <button @click="removeCart(item.id)" class="btn">
@@ -62,8 +65,13 @@
                                     </td>
                                     </tr>
                                 </table>
-                                <div class="offset-7 mt-3 col-5">
+                                <div class="row">
+                                <div class="mt-3 col-7">
+                                    <h5>Total Harga : Rp.{{totalHargaCart}},00</h5>
+                                </div>
+                                <div class="mt-3 col-5">
                                     <button data-toggle="modal" data-target="#buyModal" type="submit" class="btn btn-success btn-block">Pesan!</button>
+                                </div>
                                 </div>
                                 </div>
                         </template>
@@ -72,32 +80,37 @@
             </div>
         </div>
         </div>
-    </template>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
-import Loading from '@/components/Loading'
+import appConfig from "../config/app"
 export default {
-    components:{
-     Loading
-   },
+    setup() {
+        return {
+            apiURL: appConfig.apiURL,
+        }
+    },
     computed: {
         ...mapGetters({
-            totalBeli : 'totalBeli',
+            cart : 'cart',
+            totalHargaCart : 'totalHargaCart',
             loading : 'loading'
         })
     },
     methods : {
-        removeCart(){
-            this.$store.dispatch('removeTotalBeli')
-            this.$toast.error("Barang berhasil dihapus dari keranjang")
+        removeCart(id){
+            this.$store.dispatch('removeCart', id).then((response) => {
+                this.$toast.error(response.data.message)
+            })
         },
         submitBarang(){
-            this.$store.dispatch('submitTotalBeli', this.totalBeli).then((response) => {
+            this.$store.dispatch('submitCart', {
+                total_harga : this.totalHargaCart
+            }).then((response) => {
                 if(response.status == 200){
-                    this.$store.dispatch('clearTotalBeli')
+                    this.$store.dispatch('clearCart')
                     this.$toast.success(response.data.message)
                 }else{
                     this.$toast.error(response.data.message)

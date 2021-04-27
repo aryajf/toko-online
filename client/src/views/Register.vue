@@ -1,5 +1,7 @@
 <template>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center align-items-center">
+  <div class="row py-5">
+    <div class="col">
     <div class="login-box pt-5">
   <!-- /.login-logo -->
   <div class="card">
@@ -20,6 +22,22 @@
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" v-model="form.phone" placeholder="Nomor telepon" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <textarea class="form-control" v-model="form.alamat" placeholder="Alamat Rumah" required></textarea>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-map-marked-alt"></span>
             </div>
           </div>
         </div>
@@ -52,6 +70,11 @@
   </div>
 </div>
 </div>
+<div class="col d-flex justify-content-center align-items-center">
+  <img src="@/assets/images/register.png" alt="">
+</div>
+</div>
+</div>
 </template>
 <script>
 export default {
@@ -60,6 +83,8 @@ export default {
 			form : {
 				email : '',
 				name : '',
+				phone : '',
+				alamat : '',
 				password : '',
 				confirmPassword : '',
 			},

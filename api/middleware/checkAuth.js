@@ -8,7 +8,8 @@ module.exports = (req, res, next) => {
             req.decoded = {
                 id: decoded.id,
                 name: decoded.name,
-                email: decoded.email
+                email: decoded.email,
+                role: decoded.role
             }
             next()
         }

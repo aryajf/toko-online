@@ -48,7 +48,7 @@ export default{
         return e.response
       }
     },
-    async attempt({commit, state},token){
+    async attempt({commit, dispatch, state},token){
       if(token){
         commit('SET_TOKEN', token)
       }
@@ -58,6 +58,11 @@ export default{
       }
       
       try{
+        
+        dispatch('getCart',null,{root:true})
+        dispatch('getUnpaid',null,{root:true})
+        dispatch('getPending',null,{root:true})
+        dispatch('getAccepted',null,{root:true})
         let response = await axios.get('profile')
         commit('SET_USER', response.data)
       }catch(e){
@@ -85,7 +90,10 @@ export default{
       }
     },
     async logout({commit}){
-      commit('CLEAR_ITEM_BELI',0,{root:true})
+      commit('CLEAR_CART',null,{root:true})
+      commit('CLEAR_UNPAID',null,{root:true})
+      commit('CLEAR_PENDING',null,{root:true})
+      commit('CLEAR_ACCEPTED',null,{root:true})
       commit('SET_TOKEN', null)
       commit('SET_USER', null)
     }

@@ -6,6 +6,9 @@ import Register from '../views/Register.vue'
 import Dashboard from '../views/dashboard/Index.vue'
 import Profile from '../views/dashboard/Profile.vue'
 import Cart from '../views/Cart.vue'
+import Unpaid from '../views/Unpaid.vue'
+import Pending from '../views/Pending.vue'
+import Accepted from '../views/Accepted.vue'
 import store from '@/store'
 // import NotFound from '../views/NotFound.vue'
 
@@ -33,10 +36,26 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
-  },{
+  },
+  {
     path: '/cart',
     name: 'Cart',
     component: Cart
+  },
+  {
+    path: '/unpaid',
+    name: 'Unpaid',
+    component: Unpaid
+  },
+  {
+    path: '/pending',
+    name: 'Pending',
+    component: Pending
+  },
+  {
+    path: '/accepted',
+    name: 'Accepted',
+    component: Accepted
   },
   {
     path: '/dashboard',
