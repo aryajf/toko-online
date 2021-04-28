@@ -53,15 +53,6 @@ export default({
         }
       },
     actions: {
-        // async getPopulars({commit}){
-        //     try{
-        //       let response = await axios.get('/popular-blogs')
-        //       commit('SET_POPULARS', response.data.populars)
-        //       return response
-        //     }catch(e){
-        //       return e.response
-        //     }
-        // },
         async getSemuaBarang({commit}){
           commit('SET_LOADING', true, {root:true})
             try{

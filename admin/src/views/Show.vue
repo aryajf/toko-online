@@ -99,7 +99,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import appConfig from "../config/app"
 import {mapGetters} from 'vuex'
 import Navbar from '@/components/Navbar.vue'
@@ -173,7 +172,7 @@ export default {
             this.$store.dispatch('barang/updateBarang', credentials).then((response) => {
                 if(response.status === 200){
                     this.$toast.success(response.data.message)
-                    this.$router.push({name: 'Home'})
+                    this.$router.push({name: 'Dashboard'})
                 }else{
                     this.$toast.error(response.data.message)
                 }
@@ -193,7 +192,6 @@ export default {
         },
         deleteBarang(){
             this.$store.dispatch('barang/deleteBarang', this.$route.params.id).then((response) => {
-              $('#deleteModal').modal('hide')
                 if(response.status === 200){
                     this.$toast.success(response.data.message)
                     this.$router.push({ name: 'Dashboard'})

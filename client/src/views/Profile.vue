@@ -90,7 +90,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import appConfig from "../../config/app"
+import appConfig from "../config/app"
 export default {
     setup() {
         return {

@@ -3,8 +3,7 @@ import Home from '../views/Home.vue'
 import Show from '../views/Show.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Dashboard from '../views/dashboard/Index.vue'
-import Profile from '../views/dashboard/Profile.vue'
+import Profile from '../views/Profile.vue'
 import Cart from '../views/Cart.vue'
 import Unpaid from '../views/Unpaid.vue'
 import Pending from '../views/Pending.vue'
@@ -56,19 +55,6 @@ const routes = [
     path: '/accepted',
     name: 'Accepted',
     component: Accepted
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
-    beforeEnter: (to, from, next) => {
-      if(!store.getters['auth/authenticated']){
-        return next({
-          name : 'Home'
-        })
-      }
-      next()
-    }
   },
   {
     path: '/profile',

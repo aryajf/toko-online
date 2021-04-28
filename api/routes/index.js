@@ -30,18 +30,18 @@ router.route('/profile')
 
 // Barang
 router.route('/barang/search/:keyword')
-  .get(barangController.search);
+  .get(barangController.search)
 router.route('/barang/user')
   .get(checkAuth, barangController.withUser)
 
 router.route('/barang')
   .get(barangController.index)
-  .post(checkAuth, fileUpload.single('cover'), barangController.store)
+  .post(checkAuth, isAdmin, fileUpload.single('cover'), barangController.store)
 
 router.route('/barang/:id')
   .get(barangController.show)
-  .put(checkAuth, fileUpload.single('cover'), barangController.update)
-  .delete(checkAuth, barangController.delete)
+  .put(checkAuth, isAdmin, fileUpload.single('cover'), barangController.update)
+  .delete(checkAuth, isAdmin, barangController.delete)
 
 // Cart
 router.route('/cart')

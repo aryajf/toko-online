@@ -63,12 +63,6 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/dashboard" class="nav-link" exact>
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Dashboard</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
                 <a data-toggle="modal" data-target="#signoutModal" href="#" class="nav-link" exact>
                   <i class="fas fa-sign-out-alt nav-icon"></i>
                   <p>Signout</p>

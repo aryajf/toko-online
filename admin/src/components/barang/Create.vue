@@ -96,7 +96,9 @@ export default {
                     this.form.title = ''
                     this.form.description = ''
                 }else{
-                    this.$toast.error(response.data.message)
+                    this.$toast.error(`
+                        Error ${response.data.message}
+                    `)
                 }
             })
         }
