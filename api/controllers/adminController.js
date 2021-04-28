@@ -66,7 +66,7 @@ module.exports = {
         },{
             model: User,
             as: 'user',
-        }], where : {status : 'pending'}})
+        }], where : {status : 'pending'}, order: [['updatedAt', 'DESC']]})
         
         if(pending.length != 0){
             res.json({
@@ -84,7 +84,7 @@ module.exports = {
             model: Cart,
             as: 'cart',
             include : [{model : Barang, as: 'barang'},{model : User, as: 'user'}] // nested association
-        }], where : {status : 'accepted'}})
+        }], where : {status : 'accepted'},order: [['updatedAt', 'DESC']]})
         
         if(accepted.length != 0){
             res.json({
@@ -103,7 +103,7 @@ module.exports = {
             model: Cart,
             as: 'cart',
             include : [{model : Barang, as: 'barang'},{model : User, as: 'user'}] // nested association
-        }], where : {kode :req.params.kode, status : 'pending'}})
+        }], where : {kode :req.body.kode, status : 'pending'}})
 
         let error = []
 
@@ -149,11 +149,11 @@ module.exports = {
     
                 await Pembayaran.update(AcceptingRequest, {
                     where: {
-                        kode: req.params.kode
+                        kode: req.body.kode
                     }
                 })
 
-                res.json({
+                res.status(201).json({
                     message : 'Transaksi berhasil anda terima',
                     request : {
                         method: req.method,

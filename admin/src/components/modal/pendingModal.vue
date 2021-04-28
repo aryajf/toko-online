@@ -39,16 +39,13 @@ export default {
     },
     methods : {
         confirmPending(){
-            console.log(this.kode);
-            // this.$store.dispatch('submitAccept', this.kode).then((response) => {
-            //     if(response.status === 201){
-            //         this.$toast.success(response.data.message)
-            //         this.form.foto_bukti = null
-            //         this.$router.push({ name: 'Accept'})
-            //     }else{
-            //         this.$toast.error(response.data.message)
-            //     }
-            // })
+            this.$store.dispatch('submitPending', {kode : this.kode}).then((response) => {
+                if(response.status === 201){
+                    this.$toast.success(response.data.message)
+                }else{
+                    this.$toast.error(response.data.message)
+                }
+            })
         }
     }
 }

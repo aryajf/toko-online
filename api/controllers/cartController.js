@@ -9,7 +9,7 @@ module.exports = {
             model: Barang,
             as: 'barang',
             include : [{model : User, as: 'user'}] // nested association
-        }]})
+        }], order: [['updatedAt', 'DESC']]})
         
         if(cart.length != 0){
             res.json({
@@ -44,7 +44,7 @@ module.exports = {
     setCart: async (req, res) => {
         const barang = await Barang.findOne({
             where : {
-                id : req.params.id
+                id : req.body.id
             }
         })
 
@@ -57,14 +57,13 @@ module.exports = {
 
             let requestPayment = {
                 user_id : req.decoded.id,
-                barang_id : req.params.id,
+                barang_id : req.body.id,
                 kode : kode,
                 stok : req.body.stok,
                 harga : harga,
             }
 
             await Cart.create(requestPayment)
-            await Cart.changed('updatedAt', true)
             
             res.json({
                 message : 'Barang Berhasil Dimasukkan ke keranjang',

@@ -46,9 +46,9 @@ router.route('/barang/:id')
 // Cart
 router.route('/cart')
   .get(checkAuth, cartController.getCart)
+  .post(checkAuth, cartController.setCart)
   
 router.route('/cart/:id')
-  .post(checkAuth, cartController.setCart)
   .delete(checkAuth, cartController.removeCart)
   
 // Unpaid
@@ -74,7 +74,6 @@ router.route('/admin/pending')
 
 router.route('/admin/accepted')
   .get(checkAuth, isAdmin, adminController.getAccepted)
+  .post(checkAuth, isAdmin, adminController.setAccepted)
 
-router.route('/admin/accepted/:kode')
-  .get(checkAuth, isAdmin, adminController.setAccepted)
 module.exports = router;

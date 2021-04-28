@@ -13,7 +13,7 @@ module.exports = {
             model: Cart,
             as: 'cart',
             include : [{model : Barang, as: 'barang'}] // nested association
-        }], where : {user_id : req.decoded.id, status : 'unpaid'}})
+        }], where : {user_id : req.decoded.id, status : 'unpaid'}, order: [['updatedAt', 'DESC']]})
         
         if(unpaid.length != 0){
             res.json({
@@ -72,7 +72,7 @@ module.exports = {
             model: Cart,
             as: 'cart',
             include : [{model : Barang, as: 'barang'}] // nested association
-        }], where : {user_id : req.decoded.id, status : 'pending'}})
+        }], where : {user_id : req.decoded.id, status : 'pending'}, order: [['updatedAt', 'DESC']]})
         
         if(pending.length != 0){
             res.json({
@@ -145,7 +145,7 @@ module.exports = {
             model: Cart,
             as: 'cart',
             include : [{model : Barang, as: 'barang'}] // nested association
-        }], where : {user_id : req.decoded.id, status : 'accepted'}})
+        }], where : {user_id : req.decoded.id, status : 'accepted'}, order: [['updatedAt', 'DESC']]})
         
         if(accepted.length != 0){
             res.json({

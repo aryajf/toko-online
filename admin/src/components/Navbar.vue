@@ -28,6 +28,9 @@
                     <router-link class="nav-link" aria-current="page" to="/dashboard">Home</router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link class="nav-link" aria-current="page" to="/profile">Profile</router-link>
+                </li>
+                <li class="nav-item">
                     <a data-bs-toggle="modal" data-bs-target="#signoutModal" href="#" class="nav-link" exact><i class="fas fa-sign-out-alt nav-icon"></i> Signout
                     </a>
                 </li>

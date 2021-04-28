@@ -1,5 +1,6 @@
 <template>
-    <div class="py-3">
+    <div>
+        <navbar></navbar>
         <section class="content-header">
         <h1 v-if="this.user" class="pb-3">
           Selamat datang {{this.user.name}}
@@ -54,9 +55,6 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-              </div>
               <div class="custom-file">
                   <input v-on:change="onImageChange" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                   <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
@@ -89,6 +87,7 @@
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue'
 import {mapGetters} from 'vuex'
 import appConfig from "../../config/app"
 export default {
@@ -108,6 +107,9 @@ export default {
             },
             imagePreview: null
         }
+    },
+    components:{
+      Navbar
     },
     created(){
         if(this.user){

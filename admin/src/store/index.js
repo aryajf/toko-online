@@ -20,6 +20,11 @@ export default createStore({
     SET_PENDING(state, data){
       state.pending = data
     },
+    REMOVE_PENDING(state, kode){
+      state.pending.splice(state.pending.findIndex(function(i){
+        return i.kode === kode;
+      }), 1);
+    },
     SET_ACCEPTED(state, data){
       state.accepted = data
     },
@@ -46,6 +51,16 @@ export default createStore({
       try{
         let response = await axios.get(`admin/pending`)
         commit('SET_PENDING', response.data.pending)
+        return response
+      }catch(e){
+        return e.response
+      }
+    },
+    async submitPending({dispatch, commit}, kode){
+      try{
+        let response = await axios.post(`admin/accepted/`,kode)
+        commit('REMOVE_PENDING', kode)
+        dispatch('getAccepted')
         return response
       }catch(e){
         return e.response

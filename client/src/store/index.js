@@ -100,7 +100,7 @@ export default createStore({
     },
     async setCart({dispatch}, barang){
       try{
-        let response = await axios.post(`cart/${barang.id}`, barang)
+        let response = await axios.post(`cart`, barang)
         dispatch('getCart')
         return response
       }catch(e){

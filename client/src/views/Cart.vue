@@ -12,7 +12,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Belum..Mau cek lagi</button>
-            <button @click="submitBarang" type="button" class="btn btn-success" data-dismiss="modal">Tentu Saja!</button>
+            <button @click="submitCart" type="button" class="btn btn-success" data-dismiss="modal">Tentu Saja!</button>
         </div>
         </div>
     </div>
@@ -105,13 +105,14 @@ export default {
                 this.$toast.error(response.data.message)
             })
         },
-        submitBarang(){
+        submitCart(){
             this.$store.dispatch('submitCart', {
                 total_harga : this.totalHargaCart
             }).then((response) => {
                 if(response.status == 200){
                     this.$store.dispatch('clearCart')
                     this.$toast.success(response.data.message)
+                    this.$router.push({ name: 'Unpaid'})
                 }else{
                     this.$toast.error(response.data.message)
                 }
