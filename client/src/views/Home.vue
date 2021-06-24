@@ -21,10 +21,31 @@
     <div class="container-fluid">
     <div class="row py-5">
       <div class="col align-items-center d-flex justify-content-center">
-        <h1 id="home-title" class="d-flex justify-content-center py-4">Buruan Pesan disini!!</h1>
+        <h1 id="home-title" class="d-flex justify-content-center py-4">Buruan Pesan Baju disini!!</h1>
       </div>
       <div class="col">
         <img id="home-img" src="@/assets/images/dashboard.png" alt="">
+      </div>
+    </div>
+    <div class="row py-5">
+      <div class="col  align-items-center d-flex justify-content-center">
+        <img id="home-img" src="@/assets/images/faq.png" alt="">
+      </div>
+      <div class="col">
+        <div id="home-title" class="py-4">
+          <div class="py-2">
+            <h3>Apakah kami menyediakan COD ?</h3>
+            <b><p>Yaa kami menyediakan COD barang / bayar ditempat</p></b>
+          </div>
+          <div class="py-2">
+            <h3>Apakah Ongkir nya gratis ?</h3>
+            <b><p>Yaps benar sekali, it's superr free bro. Barang sudah termasuk ongkir</p></b>
+          </div>
+          <div class="py-2">
+            <h3>Kalau barangnya rusak boleh ditukar ga sih ?</h3>
+            <b><p>Boleh kok kami menyediakan refund untuk barang yang rusak</p></b>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row mb-2">
@@ -73,9 +94,8 @@
             <div class="container-fluid">
               <small>
                 <div class="row mb-2">
-                  <div class="col"><i class="fas fa-user"></i> {{item.user_name}} </div>
-                  <div class="col"><i class="fas fa-boxes"></i> {{item.stok}}</div>
-                  <div class="col-6"><i class="fas fa-money-bill"></i> Rp.{{item.harga}},00</div>
+                  <div class="col"><i class="fas fa-boxes"></i> Stok: {{item.stok}}</div>
+                  <div class="col-6"><i class="fas fa-money-bill"></i> Harga: Rp.{{item.harga}},00</div>
                 </div>
                 <div class="row">
                   <div class="col">
@@ -103,6 +123,19 @@
     </div>
     </template>
   </div>
+  <div class="row py-5">
+      <div class="col align-items-center d-flex justify-content-center">
+        <img id="home-img" src="@/assets/images/phone.png" alt="">
+      </div>
+      <div class="col">
+        <h3 id="home-title" class="py-4">
+          <h3>Contact us:</h3>
+          <p><i class="fas fa-phone"></i> 085773310236</p>
+          <p><i class="fas fa-envelope"></i> arshop@gmail.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Sukabumi</p>
+        </h3>
+      </div>
+    </div>
   </div>
 </template>
 

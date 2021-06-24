@@ -98,9 +98,8 @@
         <div class="row">
           <div class="col-1 d-flex align-items-center"><img :src="apiURL+'images/barang/'+result.cover" class="img-thumbnail" :alt="result.title"></div>
           <div class="col d-flex align-items-center">{{result.title}}</div>
-          <div class="col d-flex align-items-center"><i class="fas fa-box"></i> {{result.stok}}</div>
-          <div class="col d-flex align-items-center"><i class="fas fa-money-bill"></i> Rp.{{result.harga}},00</div>
-          <div class="col d-flex align-items-center"><i class="fas fa-pencil-alt"></i> {{result.user_name}}</div>
+          <div class="col d-flex align-items-center"><i class="fas fa-box"></i> Stok: {{result.stok}}</div>
+          <div class="col d-flex align-items-center"><i class="fas fa-money-bill"></i> Harga: Rp.{{result.harga}},00</div>
         </div>
     </router-link>
   </div>
